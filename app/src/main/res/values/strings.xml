@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">BLITS</string>
+    <string name="app_desc">BLITS Ambulans</string>
+    <string name="end_point">http://192.168.18.4:5050/</string>
+<!--    <string name="end_point">https://ambulance-blits.pptik.id:5134/</string>-->
+    <string name="hello">Hello World !</string>
+
+    <string name="welcome">Hi, Selamat Datang!</string>
+
+    <string name="signin">Sign In</string>
+    <string name="signin_desc">Gunakan data diri anda untuk masuk ke dalam sistem.</string>
+    <string name="signup">Sign Up</string>
+    <string name="submit">Kirim</string>
+    <string name="next">Selanjutnya</string>
+    <string name="back">Kembali</string>
+    <string name="skip">Lewatkan</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="loading">Mohon Tunggu Sebentar...</string>
+
+    <string name="new_user">Belum punya akun ? Daftar Sekarang !</string>
+    <string name="old_user">Sudah punya akun ? Silahkan Masuk !</string>
+
+    <string name="lorem_title">Lorem Ipsum</string>
+    <string name="lorem_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+
+    <string name="fullname">Nama Lengkap</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="phone">No. Telepon</string>
+    <string name="email">Email</string>
+    <string name="address">Alamat Lengkap</string>
+
+    <string name="plat">Nomor Plat</string>
+    <string name="instansi">Nama Instansi</string>
+    <string name="type">Tipe</string>
+
+    <string name="imei">IMEI</string>
+    <string name="distance">Jarak</string>
+    <string name="type_here">Type here...</string>
+    <string name="lost_password">Lupa password ?</string>
+    <string name="copyright">Copyright &#169; 2022 | BLITS. </string>
+    <string name="signup_desc">Daftarkan diri anda ke dalam sistem.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="version_app">V.0.0.1</string>
+</resources>
