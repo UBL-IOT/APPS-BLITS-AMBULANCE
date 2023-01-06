@@ -101,7 +101,6 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void loginFunction(String no_telpon, String dataPassword) {

@@ -6,19 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blits.R;
-import com.example.blits.model.DriverModel;
 import com.example.blits.model.PesananModel;
 import com.example.blits.util.Utils;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterPemesanan extends RecyclerView.Adapter<AdapterPemesanan.ViewHolder> {
 
@@ -39,31 +36,36 @@ public class AdapterPemesanan extends RecyclerView.Adapter<AdapterPemesanan.View
     @NonNull
     @Override
     public AdapterPemesanan.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.item_pesanan, null);
-        return new ViewHolder(v);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.item_pesanan, null, false);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rootView.setLayoutParams(lp);
+        return new ViewHolder(rootView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final PesananModel data = models.get(position);
         holder.mTime.setText(Utils.convertMongoDate(data.getCreated_at()));
-        if (data.getStatus_pesanan()== 0) {
+
+        if (data.getStatus_pesanan() == 0) {
             holder.mStatus.setText("Menunggu");
-            holder.mIndicator.setImageResource(R.drawable.shape_indicator_unactive);
-        }else if(data.getStatus_pesanan()== 1){
-            holder.mStatus.setText("Dalam Perjalanan");
-            holder.mIndicator.setImageResource(R.drawable.shape_indicator_orange);
-        }else {
+            holder.mIndicator.setImageResource(R.drawable.shape_indicator_pending);
+        } else if(data.getStatus_pesanan() == 1){
+            holder.mStatus.setText("Jemput");
+            holder.mIndicator.setImageResource(R.drawable.shape_indicator_waiting);
+        } else if(data.getStatus_pesanan() == 2){
+            holder.mStatus.setText("Antar");
+            holder.mIndicator.setImageResource(R.drawable.shape_indicator_proccess);
+        } else {
             holder.mStatus.setText("Selesai");
-            holder.mIndicator.setImageResource(R.drawable.shape_indicator_active);
+            holder.mIndicator.setImageResource(R.drawable.shape_indicator_success);
         }
 
         if (data.getGuid_driver() != null){
             holder.mDriver.setEnabled(true);
         }
-        holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));
 
+        holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));
     }
 
     @Override
@@ -76,8 +78,9 @@ public class AdapterPemesanan extends RecyclerView.Adapter<AdapterPemesanan.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mStatus, mTime ,mDriver;
+        TextView mStatus, mTime;
         ImageView mIndicator;
+        CardView mDriver;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -86,7 +89,6 @@ public class AdapterPemesanan extends RecyclerView.Adapter<AdapterPemesanan.View
             mTime = itemView.findViewById(R.id.mTime);
             mDriver = itemView.findViewById(R.id.mDriver);
             mIndicator = itemView.findViewById(R.id.indicator);
-
         }
     }
 

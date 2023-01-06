@@ -39,8 +39,6 @@ public class FragmentProfile extends Fragment {
         requestQueue = Volley.newRequestQueue(getActivity());
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
-//        Log.d("DATA USER", String.valueOf(modelUser.getPhone()));
-
         fullnameData = v.findViewById(R.id.fullname);
         emailData = v.findViewById(R.id.email);
         addressData = v.findViewById(R.id.address);

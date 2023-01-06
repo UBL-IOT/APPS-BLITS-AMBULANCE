@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blits.model.DriverModel;
-import com.example.blits.model.ModelUser;
 import com.example.blits.R;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboar
     @Override
     public AdapterDashboardDriver.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.dashboard_driver, null);
+        View v = inflater.inflate(R.layout.item_driver_dashboard, null);
         return new ViewHolder(v);
     }
 
@@ -42,8 +41,6 @@ public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboar
 
         holder.fullnameDriver.setText(driver.getNama_driver());
         holder.mPlat.setText(driver.getNo_plat());
-        holder.mInstansi.setText(driver.getInstansi());
-
     }
 
     @Override
@@ -63,7 +60,6 @@ public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboar
             super(itemView);
 
             fullnameDriver = itemView.findViewById(R.id.fullname);
-            mInstansi = itemView.findViewById(R.id.mInstansi);
             mPlat = itemView.findViewById(R.id.mPlat);
         }
     }

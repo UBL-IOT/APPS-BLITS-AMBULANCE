@@ -1,12 +1,9 @@
 package com.example.blits.network;
 
-import com.example.blits.model.DriverModel;
 import com.example.blits.model.PesananModel;
 import com.example.blits.response.DriverResponse;
 import com.example.blits.response.PesananResponse;
 import com.example.blits.util.CommonRespon;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,7 +12,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface NetworkService {
-
     @POST("pesanan/input")
     Call<CommonRespon> createPesanan(@Body PesananModel data);
 

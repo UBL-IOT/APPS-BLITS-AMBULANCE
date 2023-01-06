@@ -12,7 +12,6 @@ public class CommonRespon {
     @SerializedName("status")
     private Boolean mStatus;
 
-
     public String getmRc() {
         return mRc;
     }
@@ -36,6 +35,4 @@ public class CommonRespon {
     public void setSuccess(Boolean mStatus) {
         this.mStatus = mStatus;
     }
-
-
 }

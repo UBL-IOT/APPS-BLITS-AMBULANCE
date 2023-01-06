@@ -18,14 +18,11 @@ import com.example.blits.service.App;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
-
-
 public class SweetDialogs {
 
     public interface onDialogClosed{
         void onClosed(String string);
     }
-
 
     public static void commonWarning(Activity context, String title, String content, boolean close) {
         SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE);
@@ -84,9 +81,7 @@ public class SweetDialogs {
                 context.finish();
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
@@ -108,9 +103,7 @@ public class SweetDialogs {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
@@ -127,9 +120,7 @@ public class SweetDialogs {
             listener.onClosed("closed");
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
@@ -148,9 +139,7 @@ public class SweetDialogs {
             listener.onClosed("closed");
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
@@ -170,32 +159,25 @@ public class SweetDialogs {
             context.finish();
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
         btnC.setTextSize((float) 16.5);
     }
 
-
     public static void commonSuccess(Activity context, String body, boolean close) {
         SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
         dialog.setCancelable(false);
         dialog.setTitleText("Berhasil Memuat permintaan");
         dialog.setContentText(body);
-
         dialog.setConfirmText("OK");
         dialog.setConfirmClickListener(sweetAlertDialog -> {
-            
             if(close)
                 sweetAlertDialog.dismissWithAnimation();
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
@@ -213,9 +195,7 @@ public class SweetDialogs {
                 listener.onClosed("Sukses");
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
@@ -233,14 +213,11 @@ public class SweetDialogs {
             listener.onClosed("Sukses");
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
         btnC.setTextSize((float) 16.5);
-
     }
 
     public static void Loading(Activity context, String body) {
@@ -270,17 +247,13 @@ public class SweetDialogs {
             sweetAlertDialog.dismissWithAnimation();
             listener.onClosed(suksesBody);
         });
-
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
         Button btnCc = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.cancel_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
         btnC.setTextSize((float) 16.5);
-
         btnCc.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnCc.setScaleX((float) 1);
         btnCc.setScaleY((float) 0.8);
@@ -305,15 +278,12 @@ public class SweetDialogs {
             editRekening.onClosed("");
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
         Button btnCc = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.cancel_button);
-
         btnC.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
         btnC.setTextSize((float) 16.5);
-
         btnCc.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnCc.setScaleX((float) 1);
         btnCc.setScaleY((float) 0.8);
@@ -339,7 +309,6 @@ public class SweetDialogs {
             editRekening.onClosed("");
         });
         dialog.show();
-
         Button btnC = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.confirm_button);
         Button btnCc = (Button) dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.cancel_button);
         TextView text = dialog.findViewById(com.ontbee.legacyforks.cn.pedant.SweetAlert.R.id.title_text);
@@ -350,13 +319,9 @@ public class SweetDialogs {
         btnC.setScaleX((float) 1);
         btnC.setScaleY((float) 0.8);
         btnC.setTextSize((float) 16.5);
-//
         btnCc.setBackground(ContextCompat.getDrawable(context.getApplicationContext(), R.drawable.dialogbtn));
         btnCc.setScaleX((float) 1);
         btnCc.setScaleY((float) 0.8);
         btnCc.setTextSize((float) 16.5);
     }
-
-
-
 }

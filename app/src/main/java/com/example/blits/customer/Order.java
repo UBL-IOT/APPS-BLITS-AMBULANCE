@@ -70,6 +70,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class Order extends AppCompatActivity {
+
     @BindView(R.id.mBtnPesanan)
     Button mBtnPesanan;
     private MapView map = null;
@@ -86,7 +87,6 @@ public class Order extends AppCompatActivity {
 
     TextInputEditText edtJemput, edtAntar;
     ImageView btnMyLocation, btnBack;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,13 +205,11 @@ public class Order extends AppCompatActivity {
                     @Override
                     public void onResponse(retrofit2.Call<CommonRespon> call, Response<CommonRespon> response) {
                         hideLoadingIndicator();
-//                        onDataReady(response.body());
                         Log.d("datanyainiwoi" , new Gson().toJson(response.body()));
                         if(response.body().getSuccess())
                             SweetDialogs.commonSuccess(Order.this, response.body().getmRm(), true);
                         else
                             SweetDialogs.commonInvalidToken(Order.this ,"Gagal Memuat Permintaan" ,response.body().getmRm());
-//                        TopSnakbar.showSuccess(Order.this , "Berhasil memuat Permintaan");
                     }
 
                     @Override
@@ -231,15 +229,9 @@ public class Order extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // ...
-//        this.goToDashboard();
         Animatoo.animateSlideRight(this);
         super.onBackPressed();
     }
-
-//    void goToDashboard(){
-//        startActivity(new Intent(this , MainCustomer.));
-//    }
 
     public void onResume() {
         super.onResume();

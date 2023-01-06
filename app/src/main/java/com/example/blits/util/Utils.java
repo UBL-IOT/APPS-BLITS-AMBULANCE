@@ -10,13 +10,12 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//import com.mapbox.mapboxsdk.geometry.LatLng;
-
 /**
  * Created by fiyyanp on 2/1/2018.
  */
 
 public class Utils {
+
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -56,7 +55,6 @@ public class Utils {
 
     public static String convertRupiah(String val) {
 
-
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
         DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
 
@@ -67,11 +65,5 @@ public class Utils {
         kursIndonesia.setDecimalFormatSymbols(formatRp);
         String biaya =kursIndonesia.format(Long.valueOf(val));
         return biaya;
-//        int value = Integer.parseInt(val);
-//        Locale localeID = new Locale("in", "ID");
-//        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-//        String biaya =  formatRupiah.format(". "+(double)value);
-//        return biaya ;
     }
-
 }

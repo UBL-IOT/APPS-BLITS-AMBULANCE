@@ -14,6 +14,7 @@ import com.example.blits.R;
  */
 
 public class TopSnakbar {
+
     public static void showWarning(Activity activity, String message){
         TSnackbar snackbar = TSnackbar.make(activity.findViewById(android.R.id.content), message, TSnackbar.LENGTH_LONG);
         snackbar.setActionTextColor(Color.WHITE);

@@ -67,7 +67,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient"
+                android:background="@color/main_green"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
@@ -118,7 +118,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient"
+                android:background="@color/main_green"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
@@ -191,36 +191,19 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="end|center">
-
-            <TextView
-                android:id="@+id/view_all"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Lihat semua"
-                android:textColor="@color/main_grey"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/data_dashboard_customer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp"
-        tools:itemCount="6"
-        tools:listitem="@layout/dashboard_driver" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/data_dashboard_customer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            tools:itemCount="6"
+            tools:listitem="@layout/item_driver_dashboard" />
 
     </LinearLayout>
 
