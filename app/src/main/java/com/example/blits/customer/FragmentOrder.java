@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.blits.OrderHistory;
@@ -45,6 +46,8 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
 
+    LinearLayout emptyDataDisplay;
+
     ModelUser modelUser;
     Dialog dialog;
     ImageButton closePopup;
@@ -58,6 +61,8 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
         dialog = new Dialog(getActivity());
         sweetAlertDialog = new SweetAlertDialog(getActivity());
         mRecyclerView = v.findViewById(R.id.mRecyclerView);
+
+        emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
 
         orderHstory = v.findViewById(R.id.history);
         orderHstory.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +138,11 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
     }
 
     void onDataReady(List<PesananModel> model) {
+
+        if(model.isEmpty())
+            emptyDataDisplay.setVisibility(View.VISIBLE);
+
+        if (!model.isEmpty())
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.clearFocus();

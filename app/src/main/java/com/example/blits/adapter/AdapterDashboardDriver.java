@@ -38,7 +38,6 @@ public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboar
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final DriverModel driver = driverList.get(position);
-
         holder.fullnameDriver.setText(driver.getNama_driver());
         holder.mPlat.setText(driver.getNo_plat());
     }
