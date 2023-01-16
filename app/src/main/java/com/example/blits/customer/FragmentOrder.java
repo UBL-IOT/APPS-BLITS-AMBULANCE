@@ -1,6 +1,7 @@
 package com.example.blits.customer;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,9 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.example.blits.OrderHistory;
 import com.example.blits.R;
 import com.example.blits.adapter.AdapterPemesanan;
+import com.example.blits.model.DriverModel;
 import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
 import com.example.blits.network.NetworkService;
@@ -41,19 +45,27 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
 
-    List<ModelUser> modelDashboard;
     ModelUser modelUser;
     Dialog dialog;
     ImageButton closePopup;
+    TextView fullnameriverData, platDriverData, orderHstory;
     SweetAlertDialog sweetAlertDialog;
     public final Retrofit restService = RestService.getRetrofitInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_progress, container, false);
+        View v = inflater.inflate(R.layout.fragment_order, container, false);
         dialog = new Dialog(getActivity());
         sweetAlertDialog = new SweetAlertDialog(getActivity());
         mRecyclerView = v.findViewById(R.id.mRecyclerView);
+
+        orderHstory = v.findViewById(R.id.history);
+        orderHstory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), OrderHistory.class));
+            }
+        });
 
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
@@ -68,11 +80,10 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
                         hideLoadingIndicator();
-                        Log.d("datanyainiwoi" , new Gson().toJson(response.body()));
-                        if(response.body().getmStatus())
+                        if (response.body().getmStatus())
                             onDataReady(response.body().getData());
                         else
-                            SweetDialogs.commonInvalidToken(getActivity() ,"Gagal Memuat Permintaan" ,response.body().getmRm());
+                            SweetDialogs.commonInvalidToken(getActivity(), "Gagal Memuat Permintaan", response.body().getmRm());
                     }
 
                     @Override
@@ -84,18 +95,13 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
     }
 
     private void getDriver(String guid_driver) {
-        Log.d("guid drivery" , guid_driver);
         showLoadingIndicator();
         restService.create(NetworkService.class).getDriverByGuid(guid_driver)
                 .enqueue(new Callback<DriverResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<DriverResponse> call, Response<DriverResponse> response) {
                         hideLoadingIndicator();
-                        showDetailDriver();
-//                        if(response.body().getmStatus())
-//                            onDataReady(response.body().getData());
-//                        else
-//                            SweetDialogs.commonInvalidToken(getActivity() ,"Gagal Memuat Permintaan" ,response.body().getmRm());
+                        showDetailDriver(response.body().getData().get(0));
                     }
 
                     @Override
@@ -106,11 +112,17 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
                 });
     }
 
-    private void showDetailDriver() {
+    private void showDetailDriver(DriverModel data) {
         dialog.setContentView(R.layout.popup_detaildriver);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
+        fullnameriverData = dialog.findViewById(R.id.fullnameDriver);
+        platDriverData = dialog.findViewById(R.id.platDriver);
+
+        fullnameriverData.setText(data.getNama_driver());
+        platDriverData.setText(data.getNo_plat());
+
         closePopup = dialog.findViewById(R.id.closePopKeuntungan);
         closePopup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +132,7 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
         });
     }
 
-    void onDataReady(List<PesananModel> model){
+    void onDataReady(List<PesananModel> model) {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.clearFocus();
@@ -137,7 +149,6 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
     }
 
     public void onNetworkError(String cause) {
-        Log.d("Error", cause);
         SweetDialogs.endpointError(getActivity());
     }
 

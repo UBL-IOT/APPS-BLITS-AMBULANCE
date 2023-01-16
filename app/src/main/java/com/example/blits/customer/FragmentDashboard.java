@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -26,12 +25,8 @@ import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
 import com.example.blits.ui.SweetDialogs;
-import com.example.blits.ui.TopSnakbar;
-import com.example.blits.response.DriverResponse;
-import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Callback;
@@ -45,7 +40,6 @@ public class FragmentDashboard extends Fragment {
 
     TextView fullnameData;
 
-    List<ModelUser> modelDashboard;
     ModelUser modelUser;
     SweetAlertDialog sweetAlertDialog;
     private RequestQueue requestQueue;
@@ -75,10 +69,11 @@ public class FragmentDashboard extends Fragment {
                     @Override
                     public void onResponse(retrofit2.Call<DriverResponse> call, Response<DriverResponse> response) {
                         hideLoadingIndicator();
-                        if(response.body().getmStatus())
+                        if(response.body().getmStatus()) {
                             onDataReady(response.body().getData());
-                        else
-                            SweetDialogs.commonInvalidToken(getActivity() ,"Gagal Memuat Permintaan" ,response.body().getmRm());
+                        } else {
+                            SweetDialogs.commonInvalidToken(getActivity(), "Gagal Memuat Permintaan", response.body().getmRm());
+                        }
                     }
 
                     @Override

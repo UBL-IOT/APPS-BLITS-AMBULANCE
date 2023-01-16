@@ -93,7 +93,7 @@ public class SignIn extends AppCompatActivity {
                 String dataPassword = edtPassword.getText().toString();
 
                 if (telepon.isEmpty()) {
-                    StyleableToast.makeText(SignIn.this, "Email tidak boleh kosong ...", R.style.toastStyleWarning).show();
+                    StyleableToast.makeText(SignIn.this, "Telepon tidak boleh kosong ...", R.style.toastStyleWarning).show();
                 } else if (dataPassword.isEmpty()) {
                     StyleableToast.makeText(SignIn.this, "Password tidak boleh kosong ...", R.style.toastStyleWarning).show();
                 } else {

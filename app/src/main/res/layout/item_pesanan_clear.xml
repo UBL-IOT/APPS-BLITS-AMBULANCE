@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -183,35 +185,6 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/mDriver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        app:cardBackgroundColor="@color/second_grey"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="2dp"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LIHAT PENGEMUDI"
-                android:textColor="@color/main_blue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
 
         </LinearLayout>
 

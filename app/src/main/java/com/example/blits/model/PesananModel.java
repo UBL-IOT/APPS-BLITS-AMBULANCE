@@ -10,6 +10,9 @@ public class PesananModel {
     @SerializedName("guid_user")
     private String guid_user;
 
+    @SerializedName("kode_pesanan")
+    private String kode_pesanan;
+
     @SerializedName("tujuan")
     private String tujuan;
 
@@ -39,6 +42,14 @@ public class PesananModel {
 
     @SerializedName("created_at")
     private String created_at;
+
+    public String getKode_pesanan() {
+        return kode_pesanan;
+    }
+
+    public void setKode_pesanan(String kode_pesanan) {
+        this.kode_pesanan = kode_pesanan;
+    }
 
     public String getCreated_at() {
         return created_at;

@@ -101,7 +101,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/textinput"
                 android:hint="@string/type_here"
-                android:inputType="textEmailAddress"
+                android:inputType="phone"
                 android:textSize="15sp" />
 
         </com.google.android.material.textfield.TextInputLayout>

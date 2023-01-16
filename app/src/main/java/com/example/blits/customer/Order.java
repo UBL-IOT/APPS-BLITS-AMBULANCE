@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -189,8 +190,13 @@ public class Order extends AppCompatActivity {
     }
 
     void Pesanan() {
-        Toast.makeText(this, "pesen", Toast.LENGTH_SHORT).show();
         PesananModel model = new PesananModel();
+
+        Random rand = new Random();
+        int kode = rand.nextInt(99999999);
+
+        String kodeData = "BLITS-" + kode;
+
         model.setGuid_user(modelUser.getGuid());
         model.setTujuan(addressesPicker.get(0).getAddressLine(0));
         model.setTitik_jemput(addresses.get(0).getAddressLine(0));
@@ -199,17 +205,19 @@ public class Order extends AppCompatActivity {
         model.setTujuan_long(String.valueOf(addressesPicker.get(0).getLongitude()));
         model.setTitik_jemput_lat(String.valueOf(addresses.get(0).getLatitude()));
         model.setTitik_jemput_long(String.valueOf(addresses.get(0).getLongitude()));
+        model.setKode_pesanan(kodeData);
 
         restService.create(NetworkService.class).createPesanan(model)
                 .enqueue(new Callback<CommonRespon>() {
                     @Override
                     public void onResponse(retrofit2.Call<CommonRespon> call, Response<CommonRespon> response) {
                         hideLoadingIndicator();
-                        Log.d("datanyainiwoi" , new Gson().toJson(response.body()));
-                        if(response.body().getSuccess())
+                        if(response.body().getSuccess()){
                             SweetDialogs.commonSuccess(Order.this, response.body().getmRm(), true);
-                        else
+                            finish();
+                        } else {
                             SweetDialogs.commonInvalidToken(Order.this ,"Gagal Memuat Permintaan" ,response.body().getmRm());
+                        }
                     }
 
                     @Override
@@ -218,13 +226,11 @@ public class Order extends AppCompatActivity {
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
-        Log.d("datanya" , new Gson().toJson(model));
     }
 
     public void onNetworkError(String cause) {
         Log.d("Error", cause);
         TopSnakbar.showWarning(this, cause);
-//        SweetDialogs.endpointError(this);
     }
 
     @Override
