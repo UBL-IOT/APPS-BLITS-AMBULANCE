@@ -28,13 +28,11 @@ import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
 import com.example.blits.ui.SweetDialogs;
-import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +46,6 @@ public class FragmentDashboard extends Fragment {
     LinearLayout mCardPesanan;
     RecyclerView recyclerViewDashboard;
     RecyclerView.Adapter recyclerViewDashboardAdapter;
-
 
     ModelUser modelUser;
     SweetAlertDialog sweetAlertDialog;
@@ -74,7 +71,7 @@ public class FragmentDashboard extends Fragment {
 
         fullnameData.setText(modelUser.getFullname());
         recyclerViewDashboard = v.findViewById(R.id.data_dashboard_customer);
-//        this.getCountDriver();
+
         getListPenanan();
 
         FragmentDashboard.this.ListDriver();
@@ -115,11 +112,8 @@ public class FragmentDashboard extends Fragment {
             }
 
         }
-        Log.d("driver",String.valueOf(drivers.size()));
-//        emptyDataDisplay.setVisibility(View.VISIBLE);
-        if (drivers.size() == 0) {
 
-            Log.d("driver", String.valueOf(drivers.size()));
+        if (drivers.size() == 0) {
             emptyDataDisplay.setVisibility(View.VISIBLE);
         }else {
             recyclerViewDashboard.setHasFixedSize(true);
@@ -139,7 +133,6 @@ public class FragmentDashboard extends Fragment {
                         hideLoadingIndicator();
                         if (response.body().getmStatus()) {
                             List<PesananModel> orders = response.body().getData();
-                            Log.d("orders", new Gson().toJson(orders));
 
                             mCardPesanan.setVisibility(View.GONE);
                             if (!orders.isEmpty()) {

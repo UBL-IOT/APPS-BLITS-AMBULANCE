@@ -14,13 +14,10 @@ import com.example.blits.R;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboardDriver.ViewHolder> {
 
     private Context context;
     private List<DriverModel> driverList;
-    private final int limit = 4;
 
     public AdapterDashboardDriver(Context context, List<DriverModel> driverList) {
         this.context = context;
@@ -52,8 +49,7 @@ public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboar
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView fullnameDriver, mInstansi,mPlat;
-        CircleImageView photoDriver;
+        TextView fullnameDriver, mPlat;
 
         public ViewHolder(View itemView) {
             super(itemView);

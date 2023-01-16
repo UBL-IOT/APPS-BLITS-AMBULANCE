@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/dashboard_driver"
+        android:icon="@drawable/ic_baseline_space_dashboard_24"
+        android:title="Dashboard"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/order_driver"
+        android:icon="@drawable/ic_baseline_person_pin_24"
+        android:title="Order"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/me_driver"
+        android:icon="@drawable/ic_baseline_person_4_24"
+        android:title="Me"
+        app:showAsAction="always" />
+</menu>

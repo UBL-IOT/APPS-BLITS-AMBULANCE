@@ -1,8 +1,10 @@
-package com.example.blits;
+package com.example.blits.customer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.blits.R;
 
 public class OrderHistory extends AppCompatActivity {
 

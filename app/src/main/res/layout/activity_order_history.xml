@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_white"
     android:orientation="vertical"
-    tools:context=".OrderHistory">
+    tools:context=".customer.OrderHistory">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,14 +49,12 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
-            <com.airbnb.lottie.LottieAnimationView
+            <ImageView
                 android:layout_width="250dp"
-                android:layout_height="150dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/order_notfound" />
+                android:layout_height="200dp"
+                android:src="@drawable/order_empty" />
 
             <TextView
                 android:layout_width="wrap_content"

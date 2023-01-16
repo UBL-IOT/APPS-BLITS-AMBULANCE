@@ -118,7 +118,6 @@ public class SignIn extends AppCompatActivity {
                         hideDialog();
                         try {
                             String msg = response.getString("message");
-                            Log.d("Messagenya" , msg);
                             boolean statusMsg = response.getBoolean("status");
 
                             if (statusMsg == true) {
@@ -138,7 +137,6 @@ public class SignIn extends AppCompatActivity {
                                 StyleableToast.makeText(SignIn.this, msg, R.style.toastStyleWarning).show();
                             }
                         } catch (JSONException e) {
-                            Log.d("Erornya" , e.getMessage());
                             e.printStackTrace();
                         }
                     }
