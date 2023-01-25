@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.blits.BuildConfig;
 import com.example.blits.R;
 import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
@@ -47,6 +48,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
@@ -110,7 +112,17 @@ public class Order extends AppCompatActivity {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
         map = findViewById(R.id.mapview);
-        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.getTileProvider().clearTileCache();
+        Configuration.getInstance().setCacheMapTileCount((short)12);
+        Configuration.getInstance().setCacheMapTileOvershoot((short)12);
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+//        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setTileSource(new XYTileSource("HttpMapnik", 0, 19, 256, ".png", new String[] {
+                "http://a.tile.openstreetmap.org/",
+                "http://b.tile.openstreetmap.org/",
+                "http://c.tile.openstreetmap.org/"
+        },
+                "© BLITS contributors"));
         map.getController().setZoom(20.0);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);

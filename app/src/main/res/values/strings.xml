@@ -7,9 +7,9 @@
 
     <string name="welcome">Hi, Selamat Datang!</string>
 
-    <string name="signin">Sign In</string>
+    <string name="signin">Masuk Aplikasi</string>
     <string name="signin_desc">Gunakan data diri anda untuk masuk ke dalam sistem.</string>
-    <string name="signup">Sign Up</string>
+    <string name="signup">Daftar Akun</string>
     <string name="submit">Kirim</string>
     <string name="next">Selanjutnya</string>
     <string name="back">Kembali</string>
@@ -30,6 +30,11 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="phone">No. Telepon</string>
+    <string name="photo_id">Foto Identitas Diri</string>
+    <string name="term_condition_text">Agree with</string>
+    <string name="term_condition_value">Term and Codition</string>
+    <string name="ktp">Foto KTP</string>
+    <string name="selfie_ktp">Selfie KTP</string>
     <string name="email">Email</string>
     <string name="address">Alamat Lengkap</string>
 
@@ -45,5 +50,23 @@
     <string name="signup_desc">Daftarkan diri anda ke dalam sistem.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="version_app">V.0.0.1</string>
+
+    <string name="terms_desc">Kami berterima kasih atas kepercayaan Anda terhadap Layanan Pemesanan Ambulans dalam Aplikasi BLITS Ambulans. Mohon luangkan waktu Anda untuk membaca keseluruhan Ketentuan Penggunaan Pemesanan Ambulans (Ketentuan Penggunaan Aplikasi BLITS Ambulans).</string>
+    <string name="terms_desc_a">Dengan memilih untuk menggunakan Layanan Pemesanan Ambulans pada Aplikasi BLITS Ambulans, maka Anda akan dianggap telah membaca dan menyetujui Ketentuan Penggunaan. Oleh karenanya, jika Anda tidak menyetujui sebagian atau seluruh bagian dari Ketentuan Penggunaan, mohon agar Anda tidak melanjutkan penggunaan Layanan Pemesanan Ambulans.</string>
+    <string name="terms_item_a">Anda wajib memberikan informasi yang lengkap dan benar dalam mendaftarkan diri ke dalam layanan guna memvalidasi data diri anda bahwa anda adalah sebenar-benarnya pihak yang membutuhkan layanan Pemesanan Ambulans.</string>
+    <string name="terms_item_b">Kami mengumpulkan dan memproses informasi pribadi Anda, seperti nama, alamat surat elektronik (surel / e-mail), nomor telepon seluler dan Foto Kartu Tanda Penduduk Anda ketika Anda mendaftar sebagai jaminan bahwa Anda masih merupakan warga Kota Bandar Lampung. Anda harus memberikan informasi yang akurat dan lengkap, memperbaharui informasi dan setuju untuk memberikan kepada kami bukti identitas apapun yang secara wajar dapat kami mintakan. Jika informasi pribadi yang Anda berikan kepada kami ada yang berubah, misalnya, jika Anda mengubah alamat surel, nomor telepon, atau jika Anda ingin membatalkan akun Anda, mohon perbaharui rincian informasi Anda dengan mengirimkan permintaan Anda kepada kami. Kami akan, melakukan yang dapat kami lakukan, memberlakukan perubahan yang diminta tersebut dalam waktu lima belas (15) hari kerja sejak diterimanya pemberitahuan perubahan.</string>
+    <string name="terms_item_c">Informasi Anda akan dilindungi Syarat Layanan dan Kebijakan Privasi Masing-masing pihak untuk mematuhi peraturan dari otoritas terkait.</string>
+    <string name="terms_item_d">Anda hanya dapat menggunakan Aplikasi ketika Anda telah mendaftar pada Aplikasi tersebut. Setelah Anda berhasil mendaftarkan diri, Aplikasi akan memberikan Anda suatu akun pribadi yang dapat diakses dengan kata sandi yang Anda pilih.</string>
+    <string name="terms_item_e">Hanya Anda yang dapat menggunakan akun Anda sendiri dan Anda berjanji untuk tidak memberikan wewenang kepada orang lain untuk menggunakan identitas Anda atau menggunakan akun Anda. Anda tidak dapat menyerahkan atau mengalihkan akun Anda kepada pihak lain. Anda harus menjaga keamanan dan kerahasiaan kata sandi akun Anda dan setiap identifikasi yang kami berikan kepada Anda. Dalam hal terjadi pengungkapan atas kata sandi Anda, dengan cara apapun, yang mengakibatkan setiap penggunaan yang tidak sah atau tanpa kewenangan atas akun atau identitas Anda, pesanan yang diterima dari penggunaan yang tidak sah atau tanpa kewenangan tersebut masih akan dianggap sebagai pesanan yang sah, kecuali Anda memberitahu kami tentang mengenai hal tersebut sebelum Penyedia Layanan memberikan Layanan yang diminta.</string>
+    <string name="terms_item_f">Anda hanya dapat memiliki satu akun BLITS Ambulans.</string>
+    <string name="terms_item_g">Informasi yang diberikan oleh Aplikasi tidak dapat diartikan sebagai suatu saran atau penawaran, keputusan untuk menggunakan Penyedia Layanan sepenuhnya berada di tangan Anda. Anda bebas untuk memilih untuk menggunakan penyedia layanan lainnya.</string>
+    <string name="terms_item_h">Anda berjanji bahwa Anda akan menggunakan Aplikasi hanya untuk tujuan yang dimaksud untuk mendapatkan Layanan. Anda tidak diperbolehkan untuk menyalahgunakan atau menggunakan Aplikasi untuk tujuan penipuan atau menyebabkan ketidaknyamanan kepada orang lain atau melakukan pemesanan palsu.</string>
+    <string name="terms_item_i">Anda akan menjaga kerahasiaan dan tidak akan menyalahgunakan informasi yang Anda terima dari penggunaan Aplikasi tersebut. Anda akan memperlakukan Penyedia Layanan dengan hormat dan tidak akan terlibat dalam perilaku atau tindakan yang tidak sah, mengancam atau melecehkan ketika menggunakan layanan mereka.</string>
+    <string name="terms_item_j">Anda tidak diperkenankan untuk membahayakan, mengubah atau memodifikasi Aplikasi dan/atau Situs web atau mencoba untuk membahayakan, mengubah atau memodifikasi Aplikasi dan/atau Situs web dengan cara apapun. Kami tidak bertanggung jawab jika Anda tidak memiliki perangkat yang sesuai atau jika Anda telah mengunduh versi Aplikasi yang salah untuk perangkat Anda. Kami berhak untuk melarang Anda untuk menggunakan Aplikasi lebih lanjut jika Anda menggunakan Aplikasi dengan perangkat yang tidak kompatibel/cocok atau tidak sah atau untuk tujuan lain selain daripada tujuan yang dimaksud untuk penggunaan Aplikasi ini. Anda berjanji bahwa Anda hanya akan menggunakan suatu jalur akses yang diperbolehkan untuk Anda gunakan.</string>
+    <string name="terms_item_k">Anda memahami dan setuju bahwa penggunaan Aplikasi oleh Anda akan tunduk pula pada Kebijakan Privasi kami sebagaimana dapat diubah dari waktu ke waktu. Dengan menggunakan Aplikasi, Anda juga memberikan persetujuan sebagaimana dipersyaratkan berdasarkan Kebijakan Privasi kami.</string>
+    <string name="terms_item_l">Dengan memberikan informasi kepada kami, Anda menyatakan bahwa Anda berhak untuk memberikan kepada kami informasi yang akan kami gunakan dan berikan kepada Penyedia Layanan.</string>
+    <string name="terms_item_m">Setiap Pengguna berkewajiban untuk membayar penuh atas transaksi yang dilakukan di Situs Blibli sesuai dengan ketentuan transaksi dan pembayaran.</string>
+    <string name="terms_item_n">Setiap Pengguna bertanggung jawab sepenuhnya jika Pengguna melakukan pelanggaran terhadap ketentuan-ketentuan yang telah dirincikan pada Perjanjian ini, dan menyetujui untuk melepaskan Kami beserta afiliasinya atas seluruh kerugian yang diakibatkan oleh pelanggaran yang dilakukan oleh Pengguna.</string>
+    <string name="terms_item_o">Pengguna berhak mendapatkan jasa yang sesuai dan telah dibayar penuh oleh Pengguna, dan jasa tidak dapat dikembalikan atau dibatalkan secara sepihak oleh Pengguna apabila tidak sesuai dengan ketentuan yang ditetapkan oleh Kami.</string>
 
 </resources>

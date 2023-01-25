@@ -11,11 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.blits.FragmentProfileDriver;
 import com.example.blits.R;
-import com.example.blits.customer.FragmentDashboard;
-import com.example.blits.customer.FragmentOrder;
-import com.example.blits.customer.FragmentProfile;
 import com.example.blits.customer.MainCustomer;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;

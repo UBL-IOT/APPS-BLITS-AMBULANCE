@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -31,6 +32,9 @@
         android:theme="@style/Theme.BLITS"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".TermCondition"
+            android:exported="false" />
         <activity
             android:name=".customer.OrderHistory"
             android:exported="false" />

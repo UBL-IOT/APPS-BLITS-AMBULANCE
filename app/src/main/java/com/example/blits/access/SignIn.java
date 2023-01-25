@@ -39,11 +39,10 @@ public class SignIn extends AppCompatActivity {
 
     Button gotoRegist, gotoDashboard;
     TextInputEditText no_telpon, edtPassword;
+    ProgressDialog progressDialog;
 
     ModelUser modeluser;
     private RequestQueue requestQueue;
-
-    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +100,7 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void loginFunction(String no_telpon, String dataPassword) {
