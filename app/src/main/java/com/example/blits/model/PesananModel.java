@@ -43,6 +43,12 @@ public class PesananModel {
     @SerializedName("created_at")
     private String created_at;
 
+    @SerializedName("data_user")
+    private ModelUser data_user;
+
+    @SerializedName("data_driver")
+    private DriverModel data_driver;
+
     public String getKode_pesanan() {
         return kode_pesanan;
     }
@@ -145,5 +151,21 @@ public class PesananModel {
 
     public void setGuid(String guid) {
         this.guid = guid;
+    }
+
+    public ModelUser getData_user() {
+        return data_user;
+    }
+
+    public void setData_user(ModelUser data_user) {
+        this.data_user = data_user;
+    }
+
+    public DriverModel getData_driver() {
+        return data_driver;
+    }
+
+    public void setData_driver(DriverModel data_driver) {
+        this.data_driver = data_driver;
     }
 }

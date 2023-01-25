@@ -46,8 +46,10 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
@@ -55,10 +57,18 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +94,7 @@ public class Order extends AppCompatActivity {
 
     TextInputEditText edtJemput, edtAntar;
     ImageView btnMyLocation, btnBack;
+    SSLContext ssl ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +104,15 @@ public class Order extends AppCompatActivity {
         sweetAlertDialog = new SweetAlertDialog(this);
         btnMyLocation = findViewById(R.id.myLocation);
         btnBack = findViewById(R.id.arrowBack);
+//        ssl = new SSLContext().getInstance(trustAllCerts);
 
+        try {
+            ssl = SSLContext.getInstance("SSL");
+            ssl.init(null,trustAllCerts,null);
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+//        ssl.init(null, trustAllCerts, null);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -108,18 +127,29 @@ public class Order extends AppCompatActivity {
 
         Context ctx = this.getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-
+        requestPermissionsIfNecessary(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
+        });
         map = findViewById(R.id.mapview);
         map.setTileSource(TileSourceFactory.MAPNIK);
+//        map.setTileSource(new OnlineTileSourceBase("", 1, 20, 512, ".png",
+//                new String[] { "https://vectormap.pptik.id/styles/klokantech-basic/{z}/{x}/{y}.png" }) {
+//            @Override
+//            public String getTileURLString(long pMapTileIndex) {
+//                return getBaseUrl()
+//                        + MapTileIndex.getZoom(pMapTileIndex)
+//                        + "/" + MapTileIndex.getX(pMapTileIndex)
+//                        + "/" + MapTileIndex.getY(pMapTileIndex)
+//                        + mImageFilenameEnding;
+//            }
+//        });
         map.getController().setZoom(20.0);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         geocoder = new Geocoder(this, Locale.getDefault());
         geocoderPicker = new Geocoder(this, Locale.getDefault());
 
-        requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
-        });
+
 
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
         map.setMultiTouchControls(true);
@@ -351,5 +381,17 @@ public class Order extends AppCompatActivity {
     public void hideLoadingIndicator() {
         sweetAlertDialog.dismiss();
     }
+    private final TrustManager[] trustAllCerts= new TrustManager[] { new X509TrustManager() {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            return new java.security.cert.X509Certificate[]{};
+        }
 
+        public void checkClientTrusted(X509Certificate[] chain,
+                                       String authType) throws CertificateException {
+        }
+
+        public void checkServerTrusted(X509Certificate[] chain,
+                                       String authType) throws CertificateException {
+        }
+    } };
 }

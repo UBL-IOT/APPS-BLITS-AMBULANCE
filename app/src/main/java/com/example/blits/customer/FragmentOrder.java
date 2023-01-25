@@ -85,7 +85,7 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
                         if (response.body().getmStatus())
                             onDataReady(response.body().getData());
                         else
-                            SweetDialogs.commonInvalidToken(getActivity(), "Gagal Memuat Permintaan", response.body().getmRm());
+                            SweetDialogs.commonWarning(getActivity(), "Warning", "Gagal Memuat Permintaan", false);
                     }
 
                     @Override
