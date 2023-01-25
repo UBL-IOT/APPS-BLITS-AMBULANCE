@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface NetworkService {
@@ -20,6 +21,12 @@ public interface NetworkService {
 
     @GET("pesanan/byuser/{guid_user}")
     Call<PesananResponse> getPesanan(@Path("guid_user") String guid_user);
+
+    @GET("pesanan/bydriver/{guid_driver}")
+    Call<PesananResponse> getPesananByDriver(@Path("guid_driver") String guid_driver);
+
+    @PUT("pesanan/update-pesanan/{guidpesanan}")
+    Call<CommonRespon> pickOrder(@Path("guidpesanan") String guidpesanan ,@Body PesananModel model);
 
     @GET("drivers/getDetailDriver/{guid}")
     Call<DriverResponse> getDriverByGuid(@Path("guid") String guid_user);

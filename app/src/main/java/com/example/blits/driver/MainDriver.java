@@ -61,6 +61,11 @@ public class MainDriver extends AppCompatActivity {
         });
     }
 
+    protected void onResume() {
+        super.onResume();
+//        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
     private void loadFragment(Fragment fragment) {
         FragmentManager f = getSupportFragmentManager();
         FragmentTransaction t = f.beginTransaction();
