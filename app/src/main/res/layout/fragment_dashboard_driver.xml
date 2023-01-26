@@ -257,6 +257,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/pickOrderMaps"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center|start"
@@ -299,6 +300,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/dropOrderMaps"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"

@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.blits.BuildConfig;
 import com.example.blits.R;
 import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
@@ -48,6 +49,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.views.CustomZoomButtonsController;
@@ -131,7 +133,11 @@ public class Order extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
         });
         map = findViewById(R.id.mapview);
-        map.setTileSource(TileSourceFactory.MAPNIK);
+//        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.getTileProvider().clearTileCache();
+        Configuration.getInstance().setCacheMapTileCount((short)12);
+        Configuration.getInstance().setCacheMapTileOvershoot((short)12);
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 //        map.setTileSource(new OnlineTileSourceBase("", 1, 20, 512, ".png",
 //                new String[] { "https://vectormap.pptik.id/styles/klokantech-basic/{z}/{x}/{y}.png" }) {
 //            @Override
@@ -143,13 +149,17 @@ public class Order extends AppCompatActivity {
 //                        + mImageFilenameEnding;
 //            }
 //        });
+        map.setTileSource(new XYTileSource("HttpMapnik", 0, 19, 256, ".png", new String[] {
+                "http://a.tile.openstreetmap.org/",
+                "http://b.tile.openstreetmap.org/",
+                "http://c.tile.openstreetmap.org/"
+        },
+                "© BLITS contributors"));
         map.getController().setZoom(20.0);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         geocoder = new Geocoder(this, Locale.getDefault());
         geocoderPicker = new Geocoder(this, Locale.getDefault());
-
-
 
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
         map.setMultiTouchControls(true);
