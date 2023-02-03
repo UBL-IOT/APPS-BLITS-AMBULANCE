@@ -43,9 +43,6 @@ public class PesananModel {
     @SerializedName("created_at")
     private String created_at;
 
-    @SerializedName("No_telpon")
-    private String No_telpon;
-
     @SerializedName("data_user")
     private ModelUser data_user;
 
@@ -181,13 +178,5 @@ public class PesananModel {
 
     public void setData_driver(DriverModel data_driver) {
         this.data_driver = data_driver;
-    }
-
-    public String getNo_telpon() {
-        return No_telpon;
-    }
-
-    public void setNo_telpon(String no_telpon) {
-        No_telpon = no_telpon;
     }
 }

@@ -33,7 +33,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".customer.EditProfile"
+            android:name=".access.EditProfile"
             android:exported="false" />
         <activity
             android:name=".TermCondition"

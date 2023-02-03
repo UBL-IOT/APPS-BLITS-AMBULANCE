@@ -30,14 +30,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class OrderHistory extends AppCompatActivity {
-
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
     SweetAlertDialog sweetAlertDialog;
     ModelUser modelUser;
     LinearLayout dataAvailable , emptyDataDisplay;
     public final Retrofit restService = RestService.getRetrofitInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +97,7 @@ public class OrderHistory extends AppCompatActivity {
     public void onNetworkError(String cause) {
         SweetDialogs.endpointError(this);
     }
+
 
     @Override
     public void onBackPressed() {

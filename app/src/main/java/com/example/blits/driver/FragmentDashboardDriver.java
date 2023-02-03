@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -68,11 +67,10 @@ import retrofit2.Retrofit;
 public class FragmentDashboardDriver extends Fragment {
 
     LinearLayout emptyDataDisplay, dataAvailable, pickOrderHint, dropOrderHint;
-    TextView fullnameData, mOrderCode, mCustomerName, mCustomerPhone, mPickUpAddress, mDeliverAddress, mDistance, mTxtSubmit;
+    TextView fullnameData, mOrderCode, mCustomerName, mCustomerPhone, mPickUpAddress, mDeliverAddress, mTime, mDistance, mTxtSubmit;
     String userGuid;
     ModelUser modelUser;
     CardView mPickUpButton;
-    ImageView call;
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -80,8 +78,6 @@ public class FragmentDashboardDriver extends Fragment {
     Dialog dialog;
     SweetAlertDialog sweetAlertDialog;
     double latMe, lngMe;
-    double dataLatPick, dataLongPick, dataLatDrop, dataLongDrop;
-    float distanceBetween;
 
     public final Retrofit restService = RestService.getRetrofitInstance();
 
@@ -105,13 +101,12 @@ public class FragmentDashboardDriver extends Fragment {
         mCustomerPhone = v.findViewById(R.id.mCustomerPhone);
         mPickUpAddress = v.findViewById(R.id.mPickUpAddress);
         mDeliverAddress = v.findViewById(R.id.mDeliverAddress);
+        mTime = v.findViewById(R.id.mTime);
         mDistance = v.findViewById(R.id.mDistance);
         pickOrderHint = v.findViewById(R.id.pickOrderMaps);
         dropOrderHint = v.findViewById(R.id.dropOrderMaps);
 
         fullnameData.setText(modelUser.getFullname());
-
-        call = v.findViewById(R.id.call_whatsapp);
 
         getOrders(userGuid);
 
@@ -260,46 +255,25 @@ public class FragmentDashboardDriver extends Fragment {
         String pickOrder = order.getTitik_jemput();
         String dropOrder = order.getTujuan();
 
-        String callCustomer = order.getData_user().getNo_telpon().replaceFirst("0", "+62");
-
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://api.whatsapp.com/send?phone=" + callCustomer;
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setPackage("com.whatsapp");
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
-
-        if (pickOrder.length() > 50) {
-            pickOrder = pickOrder.substring(0, 49) + "...";
+        if (pickOrder.length() > 40) {
+            pickOrder = pickOrder.substring(0, 39) + "...";
             mPickUpAddress.setText(pickOrder);
         } else {
             mPickUpAddress.setText(order.getTitik_jemput());
         }
 
-        if (dropOrder.length() > 50) {
-            dropOrder = dropOrder.substring(0, 49) + "...";
+        if (dropOrder.length() > 40) {
+            dropOrder = dropOrder.substring(0, 39) + "...";
             mDeliverAddress.setText(dropOrder);
         } else {
             mDeliverAddress.setText(order.getTujuan());
         }
 
-        dataLatPick = Double.parseDouble(order.getTitik_jemput_lat());
-        dataLongPick = Double.parseDouble(order.getTitik_jemput_long());
+        double dataLatPick = Double.parseDouble(order.getTitik_jemput_lat());
+        double dataLongPick = Double.parseDouble(order.getTitik_jemput_long());
 
-        dataLatDrop = Double.parseDouble(order.getTujuan_lat());
-        dataLongDrop = Double.parseDouble(order.getTujuan_long());
-
-        final float result[] = new float[10];
-        Location.distanceBetween(dataLatPick, dataLongPick, dataLatDrop, dataLongDrop, result);
-        float distanceLocation = result[0] / 1000;
-        float resultLocation = (float) (Math.round(distanceLocation * 100)) / 100;
-        distanceBetween = resultLocation;
-
-        mDistance.setText(String.valueOf(distanceBetween + " Km"));
+        double dataLatDrop = Double.parseDouble(order.getTujuan_lat());
+        double dataLongDrop = Double.parseDouble(order.getTujuan_long());
 
         pickOrderHint.setOnClickListener(new View.OnClickListener() {
             @Override
