@@ -1,4 +1,4 @@
-package com.example.blits.customer;
+package com.example.blits.driver;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.blits.R;
 import com.example.blits.adapter.AdapterOrderCustomer;
+import com.example.blits.adapter.AdapterOrderDriver;
 import com.example.blits.model.DriverModel;
 import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
@@ -39,12 +40,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSelected {
-
+public class FragmentOrder extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
 
-    LinearLayout emptyDataDisplay,dataAvailable;
+    LinearLayout emptyDataDisplay, dataAvailable;
 
     ModelUser modelUser;
     Dialog dialog;
@@ -73,21 +73,22 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
 
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
-        ListPesanan();
+        ListPesanan(modelUser.getGuid());
         return v;
     }
 
-    private void ListPesanan() {
+    private void ListPesanan(String userGuid) {
         showLoadingIndicator();
-        restService.create(NetworkService.class).getPesanan(modelUser.getGuid())
+        restService.create(NetworkService.class).getPesananByDriver(userGuid)
                 .enqueue(new Callback<PesananResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
-                        hideLoadingIndicator();
-                        if (response.body().getmStatus())
+                        if (response.body().getmStatus()) {
                             onDataReady(response.body().getData());
-                        else
+                        } else {
                             SweetDialogs.commonWarning(getActivity(), "Warning", "Gagal Memuat Permintaan", false);
+                        }
+                        hideLoadingIndicator();
                     }
 
                     @Override
@@ -96,44 +97,6 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
-    }
-
-    private void getDriver(String guid_driver) {
-        showLoadingIndicator();
-        restService.create(NetworkService.class).getDriverByGuid(guid_driver)
-                .enqueue(new Callback<DriverResponse>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<DriverResponse> call, Response<DriverResponse> response) {
-                        hideLoadingIndicator();
-                        showDetailDriver(response.body().getData().get(0));
-                    }
-
-                    @Override
-                    public void onFailure(retrofit2.Call<DriverResponse> call, Throwable t) {
-                        hideLoadingIndicator();
-                        onNetworkError(t.getLocalizedMessage());
-                    }
-                });
-    }
-
-    private void showDetailDriver(DriverModel data) {
-        dialog.setContentView(R.layout.popup_detaildriver);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-        dialog.setCanceledOnTouchOutside(false);
-        fullnameriverData = dialog.findViewById(R.id.fullnameDriver);
-        platDriverData = dialog.findViewById(R.id.platDriver);
-
-        fullnameriverData.setText(data.getNama_driver());
-        platDriverData.setText(data.getNo_plat());
-
-        closePopup = dialog.findViewById(R.id.closePopKeuntungan);
-        closePopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
     }
 
     void onDataReady(List<PesananModel> model) {
@@ -152,7 +115,7 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
             mRecyclerView.clearFocus();
-            adapter = new AdapterOrderCustomer(getActivity(), models, FragmentOrder.this);
+            adapter = new AdapterOrderDriver(getActivity(), models);
             mRecyclerView.setAdapter(adapter);
         }
     }
@@ -169,8 +132,4 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
         SweetDialogs.endpointError(getActivity());
     }
 
-    @Override
-    public void onDetailDriver(PesananModel data) {
-        getDriver(data.getGuid_driver());
-    }
 }

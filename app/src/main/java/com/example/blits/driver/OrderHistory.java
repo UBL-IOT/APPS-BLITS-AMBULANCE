@@ -1,14 +1,7 @@
-package com.example.blits.customer;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.blits.driver;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
 
-import com.example.blits.R;
 import com.example.blits.adapter.AdapterHistoryOrderCustomer;
 import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
@@ -19,6 +12,17 @@ import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
 import com.example.blits.ui.SweetDialogs;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
+import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+import com.example.blits.R;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import java.util.List;
@@ -28,6 +32,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class OrderHistory extends AppCompatActivity {
+
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
     SweetAlertDialog sweetAlertDialog;
@@ -49,7 +54,7 @@ public class OrderHistory extends AppCompatActivity {
 
     private void ListHistoryPesanan() {
         showLoadingIndicator();
-        restService.create(NetworkService.class).getHistoryPesananByUser(modelUser.getGuid())
+        restService.create(NetworkService.class).getHistoryPesananByDriver(modelUser.getGuid())
                 .enqueue(new Callback<PesananResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {

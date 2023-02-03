@@ -21,22 +21,27 @@ import com.example.blits.util.Utils;
 
 import java.util.List;
 
-public class AdapterHistoryPemesanan extends RecyclerView.Adapter<AdapterHistoryPemesanan.ViewHolder> {
+public class AdapterOrderCustomer extends RecyclerView.Adapter<AdapterOrderCustomer.ViewHolder> {
 
     private Context context;
     private List<PesananModel> models;
+    private AdapterOrderCustomer.onSelected listener;
     ModelUser modelUser;
 
+    public interface onSelected {
+        void onDetailDriver(PesananModel data);
+    }
 
-    public AdapterHistoryPemesanan(Context context, List<PesananModel> models ) {
+    public AdapterOrderCustomer(Context context, List<PesananModel> models , onSelected listener) {
         this.context = context;
         this.models = models;
+        this.listener = listener ;
     }
 
     @NonNull
     @Override
-    public AdapterHistoryPemesanan.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(context).inflate(R.layout.item_pesanan_clear, null, false);
+    public AdapterOrderCustomer.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View rootView = LayoutInflater.from(context).inflate(R.layout.item_pesanan, null, false);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rootView.setLayoutParams(lp);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
@@ -81,9 +86,13 @@ public class AdapterHistoryPemesanan extends RecyclerView.Adapter<AdapterHistory
             holder.mIndicator.setImageResource(R.drawable.shape_indicator_success);
         }
 
+        if (data.getGuid_driver() != null){
+            holder.mDriver.setEnabled(true);
+        }else{
+            holder.mDriver.setEnabled(false);
+        }
 
-
-//        holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));
+        holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));
     }
 
     @Override

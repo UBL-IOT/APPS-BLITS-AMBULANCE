@@ -21,26 +21,21 @@ import com.example.blits.util.Utils;
 
 import java.util.List;
 
-public class AdapterPemesanan extends RecyclerView.Adapter<AdapterPemesanan.ViewHolder> {
+public class AdapterOrderDriver extends RecyclerView.Adapter<AdapterOrderDriver.ViewHolder> {
 
     private Context context;
     private List<PesananModel> models;
-    private AdapterPemesanan.onSelected listener;
     ModelUser modelUser;
 
-    public interface onSelected {
-        void onDetailDriver(PesananModel data);
-    }
 
-    public AdapterPemesanan(Context context, List<PesananModel> models , onSelected listener) {
+    public AdapterOrderDriver(Context context, List<PesananModel> models) {
         this.context = context;
         this.models = models;
-        this.listener = listener ;
     }
 
     @NonNull
     @Override
-    public AdapterPemesanan.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterOrderDriver.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.item_pesanan, null, false);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rootView.setLayoutParams(lp);
@@ -92,7 +87,6 @@ public class AdapterPemesanan extends RecyclerView.Adapter<AdapterPemesanan.View
             holder.mDriver.setEnabled(false);
         }
 
-        holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));
     }
 
     @Override

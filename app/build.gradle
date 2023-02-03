@@ -25,6 +25,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -41,6 +44,8 @@ dependencies {
     implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
     implementation 'com.jakewharton:butterknife:10.0.0'
     implementation files('libs/commons-net-ftp-2.0.jar')
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
     annotationProcessor "com.jakewharton:butterknife-compiler:10.0.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 

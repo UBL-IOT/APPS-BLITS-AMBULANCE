@@ -3,7 +3,7 @@
     <string name="app_desc">BLITS Ambulans</string>
     <string name="end_point">http://192.168.18.4:5050/</string>
     <string name="ftp_end_point">http://102.167.112.188/</string>
-<!--        <string name="end_point">https://ambulance-blits.pptik.id:5134/</string>-->
+    <!--        <string name="end_point">https://ambulance-blits.pptik.id:5134/</string>-->
     <string name="hello">Hello World !</string>
 
     <string name="welcome">Hi, Selamat Datang!</string>
@@ -70,5 +70,13 @@
     <string name="terms_item_m">Setiap Pengguna berkewajiban untuk membayar penuh atas transaksi yang dilakukan di Situs Blibli sesuai dengan ketentuan transaksi dan pembayaran.</string>
     <string name="terms_item_n">Setiap Pengguna bertanggung jawab sepenuhnya jika Pengguna melakukan pelanggaran terhadap ketentuan-ketentuan yang telah dirincikan pada Perjanjian ini, dan menyetujui untuk melepaskan Kami beserta afiliasinya atas seluruh kerugian yang diakibatkan oleh pelanggaran yang dilakukan oleh Pengguna.</string>
     <string name="terms_item_o">Pengguna berhak mendapatkan jasa yang sesuai dan telah dibayar penuh oleh Pengguna, dan jasa tidak dapat dikembalikan atau dibatalkan secara sepihak oleh Pengguna apabila tidak sesuai dengan ketentuan yang ditetapkan oleh Kami.</string>
+    <string name="title_activity_order_history">OrderHistory</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>

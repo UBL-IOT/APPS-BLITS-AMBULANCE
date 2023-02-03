@@ -42,7 +42,7 @@ public class MainDriver extends AppCompatActivity {
                         fragment = new FragmentDashboardDriver();
                         break;
                     case R.id.order_driver:
-                        fragment = new FragmentHistory();
+                        fragment = new FragmentOrder();
                         break;
                     case R.id.me_driver:
                         fragment = new FragmentProfileDriver();

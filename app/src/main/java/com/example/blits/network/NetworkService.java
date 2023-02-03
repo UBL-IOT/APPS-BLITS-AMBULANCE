@@ -30,7 +30,10 @@ public interface NetworkService {
     @GET("pesanan/historyByuser/{guid_user}")
     Call<PesananResponse> getHistoryPesananByUser(@Path("guid_user") String guid_user);
 
-        @GET("pesanan/bydriver/{guid_driver}")
+    @GET("pesanan/historyByDriver/{guid_driver}")
+    Call<PesananResponse> getHistoryPesananByDriver(@Path("guid_driver") String guid_user);
+
+    @GET("pesanan/bydriver/{guid_driver}")
     Call<PesananResponse> getPesananByDriver(@Path("guid_driver") String guid_driver);
 
     @PUT("pesanan/update-pesanan/{guidpesanan}")
