@@ -1,18 +1,15 @@
-package com.example.blits.access;
+package com.example.blits.customer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.blits.R;
-import com.example.blits.customer.MainCustomer;
-import com.example.blits.customer.Order;
-import com.example.blits.driver.MainDriver;
 import com.example.blits.model.ModelUser;
 import com.example.blits.network.NetworkService;
 import com.example.blits.network.RestService;
@@ -20,8 +17,8 @@ import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
 import com.example.blits.ui.SweetDialogs;
-import com.example.blits.ui.TopSnakbar;
 import com.example.blits.util.CommonRespon;
+import com.google.android.material.textfield.TextInputEditText;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import butterknife.BindView;
@@ -31,27 +28,45 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class EditProfile extends AppCompatActivity {
+
     @BindView(R.id.mNama)
-    EditText mNama;
+    TextInputEditText mNama;
 
-    @BindView(R.id.email)
-    EditText email;
+    @BindView(R.id.mEmail)
+    TextInputEditText mEmail;
 
-    @BindView(R.id.address)
-    EditText address;
+    @BindView(R.id.mAddress)
+    TextInputEditText mAddress;
 
     @BindView(R.id.mSubmit)
     Button mSubmit;
+
+    @BindView(R.id.arrowBack)
+    ImageView arrowBack;
+
     public final Retrofit restService = RestService.getRetrofitInstance();
     ModelUser modelUser ;
     SweetAlertDialog sweetAlertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
         ButterKnife.bind(this);
+
         sweetAlertDialog = new SweetAlertDialog(this);
+
+        arrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EditProfile.this, MainCustomer.class);
+                i.putExtra("key", this.getClass().getSimpleName());
+                startActivity(i);
+                finish();
+            }
+        });
 
         mSubmit.setOnClickListener(view -> this.editProfile());
     }
@@ -59,8 +74,8 @@ public class EditProfile extends AppCompatActivity {
     void editProfile(){
         ModelUser model = new ModelUser();
         model.setFullname(mNama.getText().toString());
-        model.setAlamat(address.getText().toString());
-        model.setEmail(email.getText().toString());
+        model.setAlamat(mAddress.getText().toString());
+        model.setEmail(mEmail.getText().toString());
         showLoadingIndicator();
         restService.create(NetworkService.class).updateProfile(modelUser.getGuid(),model)
                 .enqueue(new Callback<CommonRespon>() {
@@ -85,7 +100,6 @@ public class EditProfile extends AppCompatActivity {
     public void onNetworkError(String cause) {
         Log.d("Error", cause);
         SweetDialogs.endpointError(this);
-//        TopSnakbar.showWarning(this, cause);
     }
 
     public void gotoProfile(){
@@ -97,7 +111,10 @@ public class EditProfile extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Animatoo.animateSlideRight(this);
+        Intent i = new Intent(EditProfile.this, MainCustomer.class);
+        i.putExtra("key", this.getClass().getSimpleName());
+        startActivity(i);
+        finish();
         super.onBackPressed();
     }
 

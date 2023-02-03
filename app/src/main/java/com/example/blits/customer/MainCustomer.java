@@ -12,10 +12,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.blits.R;
-import com.example.blits.access.EditProfile;
 import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
 import com.example.blits.network.NetworkService;
@@ -25,7 +23,6 @@ import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
 import com.example.blits.ui.SweetDialogs;
-import com.example.blits.ui.TopSnakbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;

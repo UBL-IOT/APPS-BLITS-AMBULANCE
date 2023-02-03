@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.blits.R;
-import com.example.blits.access.EditProfile;
 import com.example.blits.access.SignIn;
 import com.example.blits.model.ModelUser;
 import com.example.blits.service.App;
@@ -29,8 +27,7 @@ public class FragmentProfile extends Fragment {
 
     LinearLayout btnSignOut;
     Dialog dialogSignOut;
-    TextView  phoneData, createdData;
-    EditText fullnameData , emailData,addressData ;
+    TextView  phoneData, createdData, fullnameData, emailData, addressData;
     ImageView mBtnnEdit;
     private RequestQueue requestQueue;
     ModelUser modelUser;
@@ -50,7 +47,19 @@ public class FragmentProfile extends Fragment {
 
         fullnameData.setText(modelUser.getFullname());
         emailData.setText(modelUser.getEmail());
-        addressData.setText(modelUser.getAlamat());
+
+        if (modelUser.getEmail() == null) {
+            emailData.setText(".....");
+        } else {
+            emailData.setText(modelUser.getEmail());
+        }
+
+        if (modelUser.getAlamat() == null) {
+            addressData.setText(".....");
+        } else {
+            addressData.setText(modelUser.getAlamat());
+        }
+
         phoneData.setText(modelUser.getNo_telpon());
         createdData.setText(Utils.convertMongoDateWithoutTime(modelUser.getCreated_at()));
 
@@ -66,7 +75,9 @@ public class FragmentProfile extends Fragment {
                 startActivity(new Intent(getActivity(), SignIn.class));
             }
         });
+
         mBtnnEdit.setOnClickListener(view -> doEdit() );
+
         return v;
     }
 
