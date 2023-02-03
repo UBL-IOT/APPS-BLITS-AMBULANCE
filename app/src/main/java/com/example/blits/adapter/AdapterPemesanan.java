@@ -88,6 +88,8 @@ public class AdapterPemesanan extends RecyclerView.Adapter<AdapterPemesanan.View
 
         if (data.getGuid_driver() != null){
             holder.mDriver.setEnabled(true);
+        }else{
+            holder.mDriver.setEnabled(false);
         }
 
         holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));

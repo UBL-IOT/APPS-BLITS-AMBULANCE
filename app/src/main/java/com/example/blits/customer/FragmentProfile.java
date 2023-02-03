@@ -9,12 +9,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.blits.R;
+import com.example.blits.access.EditProfile;
 import com.example.blits.access.SignIn;
 import com.example.blits.model.ModelUser;
 import com.example.blits.service.App;
@@ -26,8 +29,9 @@ public class FragmentProfile extends Fragment {
 
     LinearLayout btnSignOut;
     Dialog dialogSignOut;
-    TextView fullnameData, emailData, addressData, phoneData, createdData;
-
+    TextView  phoneData, createdData;
+    EditText fullnameData , emailData,addressData ;
+    ImageView mBtnnEdit;
     private RequestQueue requestQueue;
     ModelUser modelUser;
 
@@ -37,7 +41,7 @@ public class FragmentProfile extends Fragment {
 
         requestQueue = Volley.newRequestQueue(getActivity());
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
-
+        mBtnnEdit = v.findViewById(R.id.mBtnnEdit);
         fullnameData = v.findViewById(R.id.fullname);
         emailData = v.findViewById(R.id.email);
         addressData = v.findViewById(R.id.address);
@@ -62,7 +66,12 @@ public class FragmentProfile extends Fragment {
                 startActivity(new Intent(getActivity(), SignIn.class));
             }
         });
-
+        mBtnnEdit.setOnClickListener(view -> doEdit() );
         return v;
+    }
+
+    void doEdit(){
+        startActivity(new Intent(getActivity() , EditProfile.class));
+        getActivity().finish();
     }
 }

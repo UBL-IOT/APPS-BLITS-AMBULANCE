@@ -12,11 +12,31 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.blits.R;
+import com.example.blits.access.EditProfile;
+import com.example.blits.model.ModelUser;
+import com.example.blits.model.PesananModel;
+import com.example.blits.network.NetworkService;
+import com.example.blits.network.RestService;
+import com.example.blits.response.PesananResponse;
+import com.example.blits.service.App;
+import com.example.blits.service.GsonHelper;
+import com.example.blits.service.Prefs;
+import com.example.blits.ui.SweetDialogs;
+import com.example.blits.ui.TopSnakbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+
+import java.util.List;
+
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainCustomer extends AppCompatActivity {
 
@@ -27,12 +47,29 @@ public class MainCustomer extends AppCompatActivity {
     FragmentManager fragmentManager;
     BottomAppBar bottomAppBars;
     FloatingActionButton btnOrder;
-
+    SweetAlertDialog sweetAlertDialog;
+    public final Retrofit restService = RestService.getRetrofitInstance();
+    ModelUser modelUser ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_customer);
+        sweetAlertDialog = new SweetAlertDialog(this);
+        modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
+        Intent iin= getIntent();
+        Bundle extras = iin.getExtras();
+        if(extras!=null)
+        {
+            String key =(String) extras.get("key");
+            if(key.equals(EditProfile.class.getSimpleName()))
+                loadFragment(new FragmentProfile());
+            if(key.equals(Order.class.getSimpleName()))
+                loadFragment(new FragmentOrder());
+
+        }else{
+            loadFragment(new FragmentDashboard());
+        }
         bottomAppBars = findViewById(R.id.bottomAppBar);
         btnOrder = findViewById(R.id.order);
 
@@ -43,19 +80,22 @@ public class MainCustomer extends AppCompatActivity {
             }
         });
 
-        loadFragment(new FragmentDashboard());
+
         bottomAppBars.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 fragment = null;
                 switch (item.getItemId()) {
                     case R.id.dashboard_customer:
+                        cekPesanan();
                         fragment = new FragmentDashboard();
                         break;
                     case R.id.order_customer:
+                        cekPesanan();
                         fragment = new FragmentOrder();
                         break;
                     case R.id.me_customer:
+                        cekPesanan();
                         fragment = new FragmentProfile();
                         break;
                 }
@@ -79,6 +119,45 @@ public class MainCustomer extends AppCompatActivity {
         t.addToBackStack(null);
     }
 
+    void cekPesanan(){
+        showLoadingIndicator();
+        restService.create(NetworkService.class).getPesanan(modelUser.getGuid())
+                .enqueue(new Callback<PesananResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
+                        hideLoadingIndicator();
+                        if (response.body().getmStatus())
+                            onDataReady(response.body().getData());
+                        else
+                            SweetDialogs.commonWarning(MainCustomer.this, "Warning", "Gagal Memuat Permintaan", false);
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<PesananResponse> call, Throwable t) {
+                        hideLoadingIndicator();
+                        onNetworkError(t.getLocalizedMessage());
+                    }
+                });
+    }
+
+    void onDataReady(List<PesananModel> model) {
+        Log.d("datanya" , new Gson().toJson(model));
+        if(model.size() > 0)
+            if(model.get(0).getStatus_pesanan() != 3)
+                btnOrder.setEnabled(false);
+            else
+                btnOrder.setEnabled(true);
+
+
+
+    }
+
+    public void onNetworkError(String cause) {
+        Log.d("Error", cause);
+        SweetDialogs.endpointError(this);
+    }
+
+
     @Override
     public void onBackPressed() {
         if (backPress) {
@@ -95,5 +174,13 @@ public class MainCustomer extends AppCompatActivity {
                 backPress = false;
             }
         }, 2000);
+    }
+
+    public void showLoadingIndicator() {
+        sweetAlertDialog.show();
+    }
+
+    public void hideLoadingIndicator() {
+        sweetAlertDialog.dismiss();
     }
 }

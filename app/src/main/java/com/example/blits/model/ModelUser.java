@@ -2,7 +2,7 @@ package com.example.blits.model;
 
 public class ModelUser {
 
-    String _id, guid , fullname, username, email, password, no_telpon, alamat, role, created_at;
+    String _id, guid , fullname, username, email, password, no_telpon, alamat, role, created_at,foto_ktp,foto_selfie;
 
     public ModelUser() {
 
@@ -19,6 +19,8 @@ public class ModelUser {
         this.role = role;
         this.created_at = created_at;
         this.guid = guid ;
+        this.foto_ktp = foto_ktp ;
+        this.foto_selfie = foto_selfie ;
     }
 
     public String getGuid() {

@@ -32,6 +32,7 @@ import com.example.blits.service.Prefs;
 import com.example.blits.ui.SweetDialogs;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Callback;
@@ -135,7 +136,11 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
     }
 
     void onDataReady(List<PesananModel> model) {
-
+        List<PesananModel> models = new ArrayList<>();
+        for(PesananModel data : model){
+            if(data.getStatus_pesanan() != 3)
+                models.add(data);
+        }
         if(model.isEmpty())
             emptyDataDisplay.setVisibility(View.VISIBLE);
 
@@ -143,7 +148,7 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.clearFocus();
-        adapter = new AdapterPemesanan(getActivity(), model, FragmentOrder.this);
+        adapter = new AdapterPemesanan(getActivity(), models, FragmentOrder.this);
         mRecyclerView.setAdapter(adapter);
     }
 

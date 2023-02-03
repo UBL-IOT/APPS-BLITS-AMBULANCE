@@ -40,6 +40,19 @@ public class Utils {
         return val;
     }
 
+    public static String generateImage(String val) {
+        ISO8601DateFormat df = new ISO8601DateFormat();
+        SimpleDateFormat outputFormat = new SimpleDateFormat("ddMMM,yyyyHH:mm:ss");
+        try {
+            Date d = df.parse(val);
+            String finalStr = outputFormat.format(d);
+            val = finalStr;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return val;
+    }
+
     public static String convertMongoDateWithoutTIme(String val) {
         ISO8601DateFormat df = new ISO8601DateFormat();
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM, yyyy");

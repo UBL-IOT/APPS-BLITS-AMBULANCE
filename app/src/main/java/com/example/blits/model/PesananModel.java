@@ -49,6 +49,17 @@ public class PesananModel {
     @SerializedName("data_driver")
     private DriverModel data_driver;
 
+    @SerializedName("status_driver")
+    private int status_driver;
+
+    public int getStatus_driver() {
+        return status_driver;
+    }
+
+    public void setStatus_driver(int status_driver) {
+        this.status_driver = status_driver;
+    }
+
     public String getKode_pesanan() {
         return kode_pesanan;
     }

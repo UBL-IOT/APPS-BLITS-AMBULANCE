@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -22,13 +23,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.blits.BuildConfig;
 import com.example.blits.R;
+import com.example.blits.access.EditProfile;
+import com.example.blits.adapter.AdapterPemesanan;
 import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
 import com.example.blits.network.NetworkService;
 import com.example.blits.network.RestService;
+import com.example.blits.response.PesananResponse;
 import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
@@ -88,7 +93,7 @@ public class Order extends AppCompatActivity {
     Geocoder geocoder, geocoderPicker;
     GeoPoint point, pointPicker;
     Marker startMarker, pickerMarker;
-    ModelUser modelUser ;
+    ModelUser modelUser;
     List<Address> addresses, addressesPicker;
     SweetAlertDialog sweetAlertDialog;
     double latMe, lngMe;
@@ -96,7 +101,7 @@ public class Order extends AppCompatActivity {
 
     TextInputEditText edtJemput, edtAntar;
     ImageView btnMyLocation, btnBack;
-    SSLContext ssl ;
+    SSLContext ssl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +115,7 @@ public class Order extends AppCompatActivity {
 
         try {
             ssl = SSLContext.getInstance("SSL");
-            ssl.init(null,trustAllCerts,null);
+            ssl.init(null, trustAllCerts, null);
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -135,8 +140,8 @@ public class Order extends AppCompatActivity {
         map = findViewById(R.id.mapview);
 //        map.setTileSource(TileSourceFactory.MAPNIK);
         map.getTileProvider().clearTileCache();
-        Configuration.getInstance().setCacheMapTileCount((short)12);
-        Configuration.getInstance().setCacheMapTileOvershoot((short)12);
+        Configuration.getInstance().setCacheMapTileCount((short) 12);
+        Configuration.getInstance().setCacheMapTileOvershoot((short) 12);
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 //        map.setTileSource(new OnlineTileSourceBase("", 1, 20, 512, ".png",
 //                new String[] { "https://vectormap.pptik.id/styles/klokantech-basic/{z}/{x}/{y}.png" }) {
@@ -149,7 +154,7 @@ public class Order extends AppCompatActivity {
 //                        + mImageFilenameEnding;
 //            }
 //        });
-        map.setTileSource(new XYTileSource("HttpMapnik", 0, 19, 256, ".png", new String[] {
+        map.setTileSource(new XYTileSource("HttpMapnik", 0, 19, 256, ".png", new String[]{
                 "http://a.tile.openstreetmap.org/",
                 "http://b.tile.openstreetmap.org/",
                 "http://c.tile.openstreetmap.org/"
@@ -221,48 +226,58 @@ public class Order extends AppCompatActivity {
         this.initView();
     }
 
-    void initView(){
+    void initView() {
         mBtnPesanan.setOnClickListener(view -> this.Pesanan());
     }
 
     void Pesanan() {
-        PesananModel model = new PesananModel();
+        Log.d("titiknya" , edtAntar.getText().toString());
+        if(edtJemput.getText().toString().isEmpty())
+            TopSnakbar.showWarning(this , "Maaf anda belum memilih tujuan");
+        else if(edtAntar.getText().toString().isEmpty())
+            TopSnakbar.showWarning(this , "Maaf anda belum memilih tujuan");
+        else {
+            PesananModel model = new PesananModel();
 
-        Random rand = new Random();
-        int kode = rand.nextInt(99999999);
+            Random rand = new Random();
+            int kode = rand.nextInt(99999999);
 
-        String kodeData = "BLITS-" + kode;
+            String kodeData = "BLITS-" + kode;
 
-        model.setGuid_user(modelUser.getGuid());
-        model.setTujuan(addressesPicker.get(0).getAddressLine(0));
-        model.setTitik_jemput(addresses.get(0).getAddressLine(0));
-        model.setStatus_pesanan(0);
-        model.setTujuan_lat(String.valueOf(addressesPicker.get(0).getLatitude()));
-        model.setTujuan_long(String.valueOf(addressesPicker.get(0).getLongitude()));
-        model.setTitik_jemput_lat(String.valueOf(addresses.get(0).getLatitude()));
-        model.setTitik_jemput_long(String.valueOf(addresses.get(0).getLongitude()));
-        model.setKode_pesanan(kodeData);
-
-        restService.create(NetworkService.class).createPesanan(model)
-                .enqueue(new Callback<CommonRespon>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<CommonRespon> call, Response<CommonRespon> response) {
-                        hideLoadingIndicator();
-                        if(response.body().getSuccess()){
-                            SweetDialogs.commonSuccess(Order.this, response.body().getmRm(), true);
-                            finish();
-                        } else {
-                            SweetDialogs.commonInvalidToken(Order.this ,"Gagal Memuat Permintaan" ,response.body().getmRm());
+            model.setGuid_user(modelUser.getGuid());
+            model.setTujuan(addressesPicker.get(0).getAddressLine(0));
+            model.setTitik_jemput(addresses.get(0).getAddressLine(0));
+            model.setStatus_pesanan(0);
+            model.setTujuan_lat(String.valueOf(addressesPicker.get(0).getLatitude()));
+            model.setTujuan_long(String.valueOf(addressesPicker.get(0).getLongitude()));
+            model.setTitik_jemput_lat(String.valueOf(addresses.get(0).getLatitude()));
+            model.setTitik_jemput_long(String.valueOf(addresses.get(0).getLongitude()));
+            model.setKode_pesanan(kodeData);
+            showLoadingIndicator();
+            restService.create(NetworkService.class).createPesanan(model)
+                    .enqueue(new Callback<CommonRespon>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<CommonRespon> call, Response<CommonRespon> response) {
+                            hideLoadingIndicator();
+                            if (response.body().getSuccess()) {
+                                SweetDialogs.commonSuccessWithIntent(Order.this, "Berhasil Memuat Permintaan", string -> {
+                                    gotoListOrder();
+                                });
+                            } else {
+                                SweetDialogs.commonInvalidToken(Order.this, "Gagal Memuat Permintaan", response.body().getmRm());
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(retrofit2.Call<CommonRespon> call, Throwable t) {
-                        hideLoadingIndicator();
-                        onNetworkError(t.getLocalizedMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(retrofit2.Call<CommonRespon> call, Throwable t) {
+                            hideLoadingIndicator();
+                            onNetworkError(t.getLocalizedMessage());
+                        }
+                    });
+        }
     }
+
+
 
     public void onNetworkError(String cause) {
         Log.d("Error", cause);
@@ -273,6 +288,13 @@ public class Order extends AppCompatActivity {
     public void onBackPressed() {
         Animatoo.animateSlideRight(this);
         super.onBackPressed();
+    }
+
+    void gotoListOrder(){
+        Intent i = new Intent(this, MainCustomer.class);
+        i.putExtra("key", this.getClass().getSimpleName());
+        startActivity(i);
+        finish();
     }
 
     public void onResume() {
@@ -391,7 +413,8 @@ public class Order extends AppCompatActivity {
     public void hideLoadingIndicator() {
         sweetAlertDialog.dismiss();
     }
-    private final TrustManager[] trustAllCerts= new TrustManager[] { new X509TrustManager() {
+
+    private final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
             return new java.security.cert.X509Certificate[]{};
         }
@@ -403,5 +426,5 @@ public class Order extends AppCompatActivity {
         public void checkServerTrusted(X509Certificate[] chain,
                                        String authType) throws CertificateException {
         }
-    } };
+    }};
 }

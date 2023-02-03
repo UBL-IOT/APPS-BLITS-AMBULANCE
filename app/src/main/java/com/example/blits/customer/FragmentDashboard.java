@@ -1,5 +1,8 @@
 package com.example.blits.customer;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,11 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.blits.MainActivity;
 import com.example.blits.adapter.AdapterDashboardDriver;
 import com.example.blits.model.DriverModel;
 import com.example.blits.model.ModelUser;
@@ -28,6 +35,7 @@ import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
 import com.example.blits.ui.SweetDialogs;
+import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import java.util.ArrayList;
@@ -46,6 +54,7 @@ public class FragmentDashboard extends Fragment {
     LinearLayout mCardPesanan;
     RecyclerView recyclerViewDashboard;
     RecyclerView.Adapter recyclerViewDashboardAdapter;
+    ImageView mBtnWa;
 
     ModelUser modelUser;
     SweetAlertDialog sweetAlertDialog;
@@ -64,6 +73,7 @@ public class FragmentDashboard extends Fragment {
         mCardPesanan = v.findViewById(R.id.mCardPesanan);
         mKodePesanan = v.findViewById(R.id.mKodePesanan);
         mStatusPesanan = v.findViewById(R.id.mStatusPesanan);
+        mBtnWa = v.findViewById(R.id.mBtnWa);
 
         requestQueue = Volley.newRequestQueue(getActivity());
         sweetAlertDialog = new SweetAlertDialog(getActivity());
@@ -87,7 +97,7 @@ public class FragmentDashboard extends Fragment {
                     public void onResponse(retrofit2.Call<DriverResponse> call, Response<DriverResponse> response) {
                         hideLoadingIndicator();
                         if (response.body().getmStatus()) {
-                            Log.d("goblok" , "tolol");
+//                            Log.d("goblok" , "tolol");
                             onDataReady(response.body().getData());
                         } else {
                             SweetDialogs.commonInvalidToken(getActivity(), "Gagal Memuat Permintaan", response.body().getmRm());
@@ -112,10 +122,11 @@ public class FragmentDashboard extends Fragment {
             }
 
         }
-
+        Log.d("datadriver" , new Gson().toJson(drivers));
         if (drivers.size() == 0) {
             emptyDataDisplay.setVisibility(View.VISIBLE);
         }else {
+            emptyDataDisplay.setVisibility(View.GONE);
             recyclerViewDashboard.setHasFixedSize(true);
             recyclerViewDashboard.setLayoutManager(new GridLayoutManager(getActivity(), 2));
             recyclerViewDashboard.clearFocus();
@@ -133,7 +144,7 @@ public class FragmentDashboard extends Fragment {
                         hideLoadingIndicator();
                         if (response.body().getmStatus()) {
                             List<PesananModel> orders = response.body().getData();
-
+                            Log.d("pesanannya" , new Gson().toJson(orders));
                             mCardPesanan.setVisibility(View.GONE);
                             if (!orders.isEmpty()) {
                                 mCardPesanan.setVisibility(View.VISIBLE);
@@ -150,6 +161,7 @@ public class FragmentDashboard extends Fragment {
                                 if(orders.get(0).getStatus_pesanan() == 3) {
                                     mCardPesanan.setVisibility(View.GONE);
                                 }
+                                mBtnWa.setOnClickListener(view -> gotoWa(orders.get(0).getData_driver().getNo_telpon()));
                             }
                         } else {
                             SweetDialogs.commonInvalidToken(getActivity(), "Gagal Memuat Permintaan", response.body().getmRm());
@@ -162,6 +174,25 @@ public class FragmentDashboard extends Fragment {
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+    }
+
+    void gotoWa(String noTelpon){
+         // use country code with your phone number
+
+        noTelpon = noTelpon.substring(0, 0) + "+62" + noTelpon.substring(0+1);
+        Log.d("notelpon" , noTelpon);
+        String url = "https://api.whatsapp.com/send?phone=" + noTelpon;
+        try {
+            PackageManager pm = getActivity().getPackageManager();
+            pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Toast.makeText(getActivity(), "Whatsapp belum terinstall di HP anda", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     public void showLoadingIndicator() {

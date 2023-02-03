@@ -32,7 +32,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center|start"
                 android:orientation="vertical">
 
@@ -97,6 +97,32 @@
                             android:textSize="13sp" />
 
                     </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/ic_baseline_pin_24"
+                        app:tint="@color/main_white" />
+
+                    <TextView
+                        android:id="@+id/mNotelpon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_telpon"
+                        android:textColor="@color/main_white"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 

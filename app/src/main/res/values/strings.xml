@@ -2,7 +2,8 @@
     <string name="app_name">BLITS</string>
     <string name="app_desc">BLITS Ambulans</string>
     <string name="end_point">http://192.168.18.4:5050/</string>
-    <!--    <string name="end_point">https://ambulance-blits.pptik.id:5134/</string>-->
+    <string name="ftp_end_point">http://102.167.112.188/</string>
+<!--        <string name="end_point">https://ambulance-blits.pptik.id:5134/</string>-->
     <string name="hello">Hello World !</string>
 
     <string name="welcome">Hi, Selamat Datang!</string>
@@ -39,6 +40,7 @@
     <string name="address">Alamat Lengkap</string>
 
     <string name="plat">Nomor Plat</string>
+    <string name="no_telpon">Nomor Telepon</string>
     <string name="instansi">Nama Instansi</string>
     <string name="type">Tipe</string>
 

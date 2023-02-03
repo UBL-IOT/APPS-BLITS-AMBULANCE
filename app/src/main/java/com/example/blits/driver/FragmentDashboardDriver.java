@@ -194,10 +194,12 @@ public class FragmentDashboardDriver extends Fragment {
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
                         if (response.body().getmStatus()) {
                             if (response.body().getData().size() > 0) {
-                                onDataReady(response.body().getData().get(0));
-                            } else {
-                                emptyDataDisplay.setVisibility(View.VISIBLE);
-                                dataAvailable.setVisibility(View.GONE);
+                                if(response.body().getData().get(0).getStatus_pesanan() != 3)
+                                    onDataReady(response.body().getData().get(0));
+                                else {
+                                    emptyDataDisplay.setVisibility(View.VISIBLE);
+                                    dataAvailable.setVisibility(View.GONE);
+                                }
                             }
                         } else {
                             SweetDialogs.commonWarning(getActivity(), "Warning", "Gagal Memuat Permintaan", false);
@@ -213,9 +215,11 @@ public class FragmentDashboardDriver extends Fragment {
                 });
     }
 
-    private void pickOrders(String userGuid, int statusPesanan) {
+    private void pickOrders(String userGuid, int statusPesanan , int statusDriver , PesananModel data) {
         PesananModel model = new PesananModel();
         model.setStatus_pesanan(statusPesanan);
+        model.setStatus_driver(statusDriver);
+        model.setGuid_driver(data.getGuid_driver());
         showLoadingIndicator();
         restService.create(NetworkService.class).pickOrder(userGuid, model)
                 .enqueue(new Callback<CommonRespon>() {
@@ -243,7 +247,7 @@ public class FragmentDashboardDriver extends Fragment {
 
 
     private void onDataReady(PesananModel order) {
-        int StatusPesanan;
+        int StatusPesanan , StatusDriver;
         mOrderCode.setText(order.getKode_pesanan());
         mCustomerName.setText(order.getData_user().getFullname());
         mCustomerPhone.setText(order.getData_user().getNo_telpon());
@@ -294,14 +298,16 @@ public class FragmentDashboardDriver extends Fragment {
         if (order.getStatus_pesanan() == 1) {
             mTxtSubmit.setText("PICK ORDER");
             StatusPesanan = 2;
+            StatusDriver = 1 ;
         } else {
             mTxtSubmit.setText("SELESAI");
             StatusPesanan = 3;
+            StatusDriver = 0;
         }
 
         mPickUpButton.setOnClickListener(view -> SweetDialogs.confirmDialog(getActivity(), "Apakah Anda Yakin ?", "Melakukan Pick Order", "Berhasil Melakukan Checkout!", string -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        pickOrders(order.getGuid(), StatusPesanan);
+                        pickOrders(order.getGuid(), StatusPesanan , StatusDriver , order);
                     }
                 })
         );

@@ -28,8 +28,27 @@ public class DriverModel {
     @SerializedName("updated_at")
     private String updated_at;
 
+    @SerializedName("no_telpon")
+    private String no_telpon;
+
     @SerializedName("data_user")
     private ModelUser user;
+
+    public String getNo_telpon() {
+        return no_telpon;
+    }
+
+    public void setNo_telpon(String no_telpon) {
+        this.no_telpon = no_telpon;
+    }
+
+    public ModelUser getUser() {
+        return user;
+    }
+
+    public void setUser(ModelUser user) {
+        this.user = user;
+    }
 
     public String getGuid() {
         return guid;
