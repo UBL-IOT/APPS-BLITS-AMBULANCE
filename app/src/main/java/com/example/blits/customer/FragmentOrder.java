@@ -44,7 +44,7 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
 
-    LinearLayout emptyDataDisplay;
+    LinearLayout emptyDataDisplay,dataAvailable;
 
     ModelUser modelUser;
     Dialog dialog;
@@ -61,6 +61,7 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
         mRecyclerView = v.findViewById(R.id.mRecyclerView);
 
         emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
+        dataAvailable = v.findViewById(R.id.dataAvailable);
 
         orderHstory = v.findViewById(R.id.history);
         orderHstory.setOnClickListener(new View.OnClickListener() {
@@ -141,15 +142,19 @@ public class FragmentOrder extends Fragment implements AdapterPemesanan.onSelect
             if(data.getStatus_pesanan() != 3)
                 models.add(data);
         }
-        if(model.isEmpty())
+        if(models.isEmpty()) {
             emptyDataDisplay.setVisibility(View.VISIBLE);
-
-        if (!model.isEmpty())
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mRecyclerView.clearFocus();
-        adapter = new AdapterPemesanan(getActivity(), models, FragmentOrder.this);
-        mRecyclerView.setAdapter(adapter);
+            dataAvailable.setVisibility(View.GONE);
+        }
+        else {
+            emptyDataDisplay.setVisibility(View.GONE);
+            dataAvailable.setVisibility(View.VISIBLE);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            mRecyclerView.clearFocus();
+            adapter = new AdapterPemesanan(getActivity(), models, FragmentOrder.this);
+            mRecyclerView.setAdapter(adapter);
+        }
     }
 
     public void showLoadingIndicator() {
