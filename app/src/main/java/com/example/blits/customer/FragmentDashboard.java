@@ -151,17 +151,18 @@ public class FragmentDashboard extends Fragment {
                                 mKodePesanan.setText(orders.get(0).getKode_pesanan());
                                 if(orders.get(0).getStatus_pesanan() == 0) {
                                     mStatusPesanan.setText("Menunggu");
+                                }else {
+                                    if (orders.get(0).getStatus_pesanan() == 1) {
+                                        mStatusPesanan.setText("Jemput");
+                                    }
+                                    if (orders.get(0).getStatus_pesanan() == 2) {
+                                        mStatusPesanan.setText("Antar");
+                                    }
+                                    if (orders.get(0).getStatus_pesanan() == 3) {
+                                        mCardPesanan.setVisibility(View.GONE);
+                                    }
+                                    mBtnWa.setOnClickListener(view -> gotoWa(orders.get(0).getData_driver().getNo_telpon()));
                                 }
-                                if(orders.get(0).getStatus_pesanan() == 1) {
-                                    mStatusPesanan.setText("Jemput");
-                                }
-                                if(orders.get(0).getStatus_pesanan() == 2) {
-                                    mStatusPesanan.setText("Antar");
-                                }
-                                if(orders.get(0).getStatus_pesanan() == 3) {
-                                    mCardPesanan.setVisibility(View.GONE);
-                                }
-                                mBtnWa.setOnClickListener(view -> gotoWa(orders.get(0).getData_driver().getNo_telpon()));
                             }
                         } else {
                             SweetDialogs.commonInvalidToken(getActivity(), "Gagal Memuat Permintaan", response.body().getmRm());
