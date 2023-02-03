@@ -43,6 +43,8 @@ public class OrderHistory extends AppCompatActivity {
 
         sweetAlertDialog = new SweetAlertDialog(this);
         mRecyclerView = findViewById(R.id.mRecyclerView);
+        dataAvailable = findViewById(R.id.dataAvailable);
+        emptyDataDisplay = findViewById(R.id.emptyDataDisplay);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
         this.ListHistoryPesanan();
     }
