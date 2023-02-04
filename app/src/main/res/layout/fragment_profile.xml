@@ -23,8 +23,7 @@
             app:civ_border_width="1dp"
             app:civ_circle_background_color="@color/main_blue" />
 
-        <EditText
-            android:enabled="false"
+        <TextView
             android:id="@+id/fullname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +92,7 @@
 
                 <ImageView
 
-                    android:id="@+id/mBtnnEdit"
+                    android:id="@+id/mBtnEdit"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_weight="0"
@@ -158,13 +157,13 @@
                     android:src="@drawable/ic_baseline_alternate_email_24"
                     app:tint="@color/main_blue" />
 
-                <EditText
-                    android:enabled="false"
+                <TextView
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_weight="3"
+                    android:enabled="false"
                     android:text="-"
                     android:textColor="@color/third_grey" />
 
@@ -200,13 +199,13 @@
                     android:src="@drawable/ic_baseline_person_pin_24"
                     app:tint="@color/main_blue" />
 
-                <EditText
+                <TextView
                     android:id="@+id/address"
-                    android:enabled="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_weight="3"
+                    android:enabled="false"
                     android:text="-"
                     android:textColor="@color/third_grey" />
 

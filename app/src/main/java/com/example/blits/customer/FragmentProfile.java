@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.blits.R;
-import com.example.blits.access.EditProfile;
 import com.example.blits.access.SignIn;
 import com.example.blits.model.ModelUser;
 import com.example.blits.service.App;
@@ -29,9 +28,9 @@ public class FragmentProfile extends Fragment {
 
     LinearLayout btnSignOut;
     Dialog dialogSignOut;
-    TextView  phoneData, createdData;
-    EditText fullnameData , emailData,addressData ;
-    ImageView mBtnnEdit;
+    TextView  phoneData, createdData, fullnameData, emailData, addressData;
+    ImageView mBtnEdit;
+
     private RequestQueue requestQueue;
     ModelUser modelUser;
 
@@ -41,7 +40,7 @@ public class FragmentProfile extends Fragment {
 
         requestQueue = Volley.newRequestQueue(getActivity());
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
-        mBtnnEdit = v.findViewById(R.id.mBtnnEdit);
+        mBtnEdit = v.findViewById(R.id.mBtnEdit);
         fullnameData = v.findViewById(R.id.fullname);
         emailData = v.findViewById(R.id.email);
         addressData = v.findViewById(R.id.address);
@@ -50,7 +49,19 @@ public class FragmentProfile extends Fragment {
 
         fullnameData.setText(modelUser.getFullname());
         emailData.setText(modelUser.getEmail());
-        addressData.setText(modelUser.getAlamat());
+
+        if (modelUser.getEmail() == null) {
+            emailData.setText(".....");
+        } else {
+            emailData.setText(modelUser.getEmail());
+        }
+
+        if (modelUser.getAlamat() == null) {
+            addressData.setText(".....");
+        } else {
+            addressData.setText(modelUser.getAlamat());
+        }
+
         phoneData.setText(modelUser.getNo_telpon());
         createdData.setText(Utils.convertMongoDateWithoutTime(modelUser.getCreated_at()));
 
@@ -66,7 +77,8 @@ public class FragmentProfile extends Fragment {
                 startActivity(new Intent(getActivity(), SignIn.class));
             }
         });
-        mBtnnEdit.setOnClickListener(view -> doEdit() );
+
+        mBtnEdit.setOnClickListener(view -> doEdit() );
         return v;
     }
 

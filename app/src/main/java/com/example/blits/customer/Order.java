@@ -127,33 +127,23 @@ public class Order extends AppCompatActivity {
 
         Context ctx = this.getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
         requestPermissionsIfNecessary(new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
         });
+
         map = findViewById(R.id.mapview);
-//        map.setTileSource(TileSourceFactory.MAPNIK);
         map.getTileProvider().clearTileCache();
         Configuration.getInstance().setCacheMapTileCount((short) 12);
         Configuration.getInstance().setCacheMapTileOvershoot((short) 12);
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-//        map.setTileSource(new OnlineTileSourceBase("", 1, 20, 512, ".png",
-//                new String[] { "https://vectormap.pptik.id/styles/klokantech-basic/{z}/{x}/{y}.png" }) {
-//            @Override
-//            public String getTileURLString(long pMapTileIndex) {
-//                return getBaseUrl()
-//                        + MapTileIndex.getZoom(pMapTileIndex)
-//                        + "/" + MapTileIndex.getX(pMapTileIndex)
-//                        + "/" + MapTileIndex.getY(pMapTileIndex)
-//                        + mImageFilenameEnding;
-//            }
-//        });
         map.setTileSource(new XYTileSource("HttpMapnik", 0, 19, 256, ".png", new String[]{
                 "http://a.tile.openstreetmap.org/",
                 "http://b.tile.openstreetmap.org/",
                 "http://c.tile.openstreetmap.org/"
         },
                 "© BLITS contributors"));
-        map.getController().setZoom(20.0);
+        map.getController().setZoom(17.0);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         geocoder = new Geocoder(this, Locale.getDefault());
@@ -269,8 +259,6 @@ public class Order extends AppCompatActivity {
                     });
         }
     }
-
-
 
     public void onNetworkError(String cause) {
         Log.d("Error", cause);
