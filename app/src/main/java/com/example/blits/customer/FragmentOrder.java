@@ -44,18 +44,19 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
 
-    LinearLayout emptyDataDisplay,dataAvailable;
+    LinearLayout emptyDataDisplay, dataAvailable;
 
     ModelUser modelUser;
     Dialog dialog;
     ImageButton closePopup;
-    TextView fullnameriverData, platDriverData, orderHstory;
+    TextView fullnameriverData, platDriverData, orderHistory;
     SweetAlertDialog sweetAlertDialog;
     public final Retrofit restService = RestService.getRetrofitInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_order, container, false);
+
         dialog = new Dialog(getActivity());
         sweetAlertDialog = new SweetAlertDialog(getActivity());
         mRecyclerView = v.findViewById(R.id.mRecyclerView);
@@ -63,8 +64,8 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
         emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
         dataAvailable = v.findViewById(R.id.dataAvailable);
 
-        orderHstory = v.findViewById(R.id.history);
-        orderHstory.setOnClickListener(new View.OnClickListener() {
+        orderHistory = v.findViewById(R.id.history);
+        orderHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), OrderHistory.class));
@@ -74,6 +75,7 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
         ListPesanan();
+
         return v;
     }
 
@@ -138,15 +140,16 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
 
     void onDataReady(List<PesananModel> model) {
         List<PesananModel> models = new ArrayList<>();
-        for(PesananModel data : model){
-            if(data.getStatus_pesanan() != 3)
+
+        for (PesananModel data : model) {
+            if (data.getStatus_pesanan() != 3)
                 models.add(data);
         }
-        if(models.isEmpty()) {
+
+        if (models.isEmpty()) {
             emptyDataDisplay.setVisibility(View.VISIBLE);
             dataAvailable.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             emptyDataDisplay.setVisibility(View.GONE);
             dataAvailable.setVisibility(View.VISIBLE);
             mRecyclerView.setHasFixedSize(true);

@@ -100,11 +100,11 @@ public class Order extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
         ButterKnife.bind(this);
         sweetAlertDialog = new SweetAlertDialog(this);
         btnMyLocation = findViewById(R.id.myLocation);
         btnBack = findViewById(R.id.arrowBack);
-//        ssl = new SSLContext().getInstance(trustAllCerts);
 
         try {
             ssl = SSLContext.getInstance("SSL");
@@ -112,7 +112,7 @@ public class Order extends AppCompatActivity {
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-//        ssl.init(null, trustAllCerts, null);
+
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -137,12 +137,14 @@ public class Order extends AppCompatActivity {
         Configuration.getInstance().setCacheMapTileCount((short) 12);
         Configuration.getInstance().setCacheMapTileOvershoot((short) 12);
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+
         map.setTileSource(new XYTileSource("HttpMapnik", 0, 19, 256, ".png", new String[]{
                 "http://a.tile.openstreetmap.org/",
                 "http://b.tile.openstreetmap.org/",
                 "http://c.tile.openstreetmap.org/"
         },
                 "© BLITS contributors"));
+
         map.getController().setZoom(17.0);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -214,11 +216,10 @@ public class Order extends AppCompatActivity {
     }
 
     void Pesanan() {
-        Log.d("titiknya" , edtAntar.getText().toString());
-        if(edtJemput.getText().toString().isEmpty())
-            TopSnakbar.showWarning(this , "Maaf anda belum memilih tujuan");
-        else if(edtAntar.getText().toString().isEmpty())
-            TopSnakbar.showWarning(this , "Maaf anda belum memilih tujuan");
+        if (edtJemput.getText().toString().isEmpty())
+            TopSnakbar.showWarning(this, "Maaf anda belum memilih tujuan");
+        else if (edtAntar.getText().toString().isEmpty())
+            TopSnakbar.showWarning(this, "Maaf anda belum memilih tujuan");
         else {
             PesananModel model = new PesananModel();
 
@@ -243,7 +244,7 @@ public class Order extends AppCompatActivity {
                         public void onResponse(retrofit2.Call<CommonRespon> call, Response<CommonRespon> response) {
                             hideLoadingIndicator();
                             if (response.body().getSuccess()) {
-                                SweetDialogs.commonSuccessWithIntent(Order.this, "Berhasil Memuat Permintaan", string -> {
+                                SweetDialogs.commonSuccessWithIntent(Order.this, "Berhasil Melakukan Pemesanan", string -> {
                                     gotoListOrder();
                                 });
                             } else {
@@ -271,7 +272,7 @@ public class Order extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    void gotoListOrder(){
+    void gotoListOrder() {
         Intent i = new Intent(this, MainCustomer.class);
         i.putExtra("key", this.getClass().getSimpleName());
         startActivity(i);

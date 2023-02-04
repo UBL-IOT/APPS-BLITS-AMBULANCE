@@ -39,7 +39,6 @@ public interface NetworkService {
     @PUT("pesanan/update-pesanan/{guidpesanan}")
     Call<CommonRespon> pickOrder(@Path("guidpesanan") String guidpesanan ,@Body PesananModel model);
 
-
     @GET("drivers/getDetailDriver/{guid}")
     Call<DriverResponse> getDriverByGuid(@Path("guid") String guid_user);
 }

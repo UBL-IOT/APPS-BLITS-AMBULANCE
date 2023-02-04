@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.example.blits.MainActivity;
 import com.example.blits.adapter.AdapterDashboardDriver;
 import com.example.blits.model.DriverModel;
 import com.example.blits.model.ModelUser;
@@ -49,21 +47,21 @@ import retrofit2.Retrofit;
 public class FragmentDashboard extends Fragment {
 
     LinearLayout emptyDataDisplay;
-
     TextView mCountDriver, fullnameData, mKodePesanan, mStatusPesanan;
     LinearLayout mCardPesanan;
     RecyclerView recyclerViewDashboard;
     RecyclerView.Adapter recyclerViewDashboardAdapter;
     ImageView mBtnWa;
+    SweetAlertDialog sweetAlertDialog;
 
     ModelUser modelUser;
-    SweetAlertDialog sweetAlertDialog;
     private RequestQueue requestQueue;
     public final Retrofit restService = RestService.getRetrofitInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
         ButterKnife.bind(getActivity());
 
         emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
@@ -97,7 +95,6 @@ public class FragmentDashboard extends Fragment {
                     public void onResponse(retrofit2.Call<DriverResponse> call, Response<DriverResponse> response) {
                         hideLoadingIndicator();
                         if (response.body().getmStatus()) {
-//                            Log.d("goblok" , "tolol");
                             onDataReady(response.body().getData());
                         } else {
                             SweetDialogs.commonInvalidToken(getActivity(), "Gagal Memuat Permintaan", response.body().getmRm());
@@ -116,16 +113,16 @@ public class FragmentDashboard extends Fragment {
         mCountDriver.setText(String.valueOf(model.size()));
         List<DriverModel> drivers = new ArrayList<>();
 
-        for(int i = 0; i < model.size(); i++) {
-            if (Integer.parseInt(model.get(i).getStatus_driver()) == 0 ){
+        for (int i = 0; i < model.size(); i++) {
+            if (Integer.parseInt(model.get(i).getStatus_driver()) == 0) {
                 drivers.add(model.get(i));
             }
 
         }
-        Log.d("datadriver" , new Gson().toJson(drivers));
+
         if (drivers.size() == 0) {
             emptyDataDisplay.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             emptyDataDisplay.setVisibility(View.GONE);
             recyclerViewDashboard.setHasFixedSize(true);
             recyclerViewDashboard.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -144,14 +141,13 @@ public class FragmentDashboard extends Fragment {
                         hideLoadingIndicator();
                         if (response.body().getmStatus()) {
                             List<PesananModel> orders = response.body().getData();
-                            Log.d("pesanannya" , new Gson().toJson(orders));
                             mCardPesanan.setVisibility(View.GONE);
                             if (!orders.isEmpty()) {
                                 mCardPesanan.setVisibility(View.VISIBLE);
                                 mKodePesanan.setText(orders.get(0).getKode_pesanan());
-                                if(orders.get(0).getStatus_pesanan() == 0) {
+                                if (orders.get(0).getStatus_pesanan() == 0) {
                                     mStatusPesanan.setText("Menunggu");
-                                }else {
+                                } else {
                                     if (orders.get(0).getStatus_pesanan() == 1) {
                                         mStatusPesanan.setText("Jemput");
                                     }
@@ -177,11 +173,9 @@ public class FragmentDashboard extends Fragment {
                 });
     }
 
-    void gotoWa(String noTelpon){
-         // use country code with your phone number
-
-        noTelpon = noTelpon.substring(0, 0) + "+62" + noTelpon.substring(0+1);
-        Log.d("notelpon" , noTelpon);
+    void gotoWa(String noTelpon) {
+        noTelpon = noTelpon.substring(0, 0) + "+62" + noTelpon.substring(0 + 1);
+        Log.d("notelpon", noTelpon);
         String url = "https://api.whatsapp.com/send?phone=" + noTelpon;
         try {
             PackageManager pm = getActivity().getPackageManager();

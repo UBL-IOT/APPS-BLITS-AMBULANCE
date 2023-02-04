@@ -27,7 +27,6 @@ public class AdapterOrderDriver extends RecyclerView.Adapter<AdapterOrderDriver.
     private List<PesananModel> models;
     ModelUser modelUser;
 
-
     public AdapterOrderDriver(Context context, List<PesananModel> models) {
         this.context = context;
         this.models = models;
@@ -70,10 +69,10 @@ public class AdapterOrderDriver extends RecyclerView.Adapter<AdapterOrderDriver.
         if (data.getStatus_pesanan() == 0) {
             holder.mStatus.setText("Menunggu");
             holder.mIndicator.setImageResource(R.drawable.shape_indicator_pending);
-        } else if(data.getStatus_pesanan() == 1){
+        } else if (data.getStatus_pesanan() == 1) {
             holder.mStatus.setText("Jemput");
             holder.mIndicator.setImageResource(R.drawable.shape_indicator_waiting);
-        } else if(data.getStatus_pesanan() == 2){
+        } else if (data.getStatus_pesanan() == 2) {
             holder.mStatus.setText("Antar");
             holder.mIndicator.setImageResource(R.drawable.shape_indicator_proccess);
         } else {
@@ -81,9 +80,9 @@ public class AdapterOrderDriver extends RecyclerView.Adapter<AdapterOrderDriver.
             holder.mIndicator.setImageResource(R.drawable.shape_indicator_success);
         }
 
-        if (data.getGuid_driver() != null){
+        if (data.getGuid_driver() != null) {
             holder.mDriver.setEnabled(true);
-        }else{
+        } else {
             holder.mDriver.setEnabled(false);
         }
 

@@ -2,7 +2,7 @@ package com.example.blits.assets;
 
 public class IntroModel {
 
-    String Title,Description;
+    String Title, Description;
     int ScreenImg;
 
     public IntroModel(String title, String description, int screenImg) {

@@ -39,34 +39,36 @@ public class MainCustomer extends AppCompatActivity {
 
     private static final String TAG = MainCustomer.class.getSimpleName();
     boolean backPress = false;
+    public final Retrofit restService = RestService.getRetrofitInstance();
 
     Fragment fragment;
     FragmentManager fragmentManager;
     BottomAppBar bottomAppBars;
     FloatingActionButton btnOrder;
     SweetAlertDialog sweetAlertDialog;
-    public final Retrofit restService = RestService.getRetrofitInstance();
-    ModelUser modelUser ;
+    ModelUser modelUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_customer);
+
         sweetAlertDialog = new SweetAlertDialog(this);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
-        Intent iin= getIntent();
+        Intent iin = getIntent();
         Bundle extras = iin.getExtras();
-        if(extras!=null)
-        {
-            String key =(String) extras.get("key");
-            if(key.equals(EditProfile.class.getSimpleName()))
-                loadFragment(new FragmentProfile());
-            if(key.equals(Order.class.getSimpleName()))
-                loadFragment(new FragmentOrder());
 
-        }else{
+        if (extras != null) {
+            String key = (String) extras.get("key");
+            if (key.equals(EditProfile.class.getSimpleName()))
+                loadFragment(new FragmentProfile());
+            if (key.equals(Order.class.getSimpleName()))
+                loadFragment(new FragmentOrder());
+        } else {
             loadFragment(new FragmentDashboard());
         }
+
         bottomAppBars = findViewById(R.id.bottomAppBar);
         btnOrder = findViewById(R.id.order);
 
@@ -76,7 +78,6 @@ public class MainCustomer extends AppCompatActivity {
                 startActivity(new Intent(MainCustomer.this, Order.class));
             }
         });
-
 
         bottomAppBars.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -116,7 +117,7 @@ public class MainCustomer extends AppCompatActivity {
         t.addToBackStack(null);
     }
 
-    void cekPesanan(){
+    void cekPesanan() {
         showLoadingIndicator();
         restService.create(NetworkService.class).getPesanan(modelUser.getGuid())
                 .enqueue(new Callback<PesananResponse>() {
@@ -138,22 +139,17 @@ public class MainCustomer extends AppCompatActivity {
     }
 
     void onDataReady(List<PesananModel> model) {
-        Log.d("datanya" , new Gson().toJson(model));
-        if(model.size() > 0)
-            if(model.get(0).getStatus_pesanan() != 3)
+        if (model.size() > 0)
+            if (model.get(0).getStatus_pesanan() != 3)
                 btnOrder.setEnabled(false);
             else
                 btnOrder.setEnabled(true);
-
-
-
     }
 
     public void onNetworkError(String cause) {
         Log.d("Error", cause);
         SweetDialogs.endpointError(this);
     }
-
 
     @Override
     public void onBackPressed() {

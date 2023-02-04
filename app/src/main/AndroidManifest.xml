@@ -24,24 +24,19 @@
         android:fullBackupContent="@xml/backup_rules"
         android:fullBackupOnly="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_blits"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_blits_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BLITS"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".driver.OrderHistory"
-            android:exported="false"
-            android:label="@string/title_activity_order_history"
-            android:theme="@style/Theme.BLITS.NoActionBar" />
-        <activity
             android:name=".customer.EditProfile"
             android:exported="false" />
         <activity
-            android:name=".TermCondition"
+            android:name=".assets.TermCondition"
             android:exported="false" />
         <activity
             android:name=".customer.OrderHistory"

@@ -48,15 +48,15 @@ public class OnBoard extends AppCompatActivity {
         tvSkip = findViewById(R.id.tv_skip);
         screenPager = findViewById(R.id.screen_viewpager);
 
-        btnAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.button_animation);
+        btnAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_animation);
 
         final List<IntroModel> mList = new ArrayList<>();
-        mList.add(new IntroModel("BLITS AMBULANS","Layanan masyarakat kota Bandar Lampung, sebagai sarana pemesanan ambulans milik daerah secara digital.",R.drawable.icon_text_light));
-        mList.add(new IntroModel("KELOLA DATA AMBULANS","Kami menyediakan layanan untuk mengelola armada ambulans dengan status yang dimiliki kendaraan untuk beroperasi.",R.drawable.kelola_ambulans));
-        mList.add(new IntroModel("KELOLA DATA PENGEMUDI","Layanan kami memiliki fitur yang dapat digunakan untuk mendata pengemudi yang dimiliki daerah untuk beroperasi.",R.drawable.kelola_driver));
-        mList.add(new IntroModel("LAKUKAN PEMESANAN","Lakukan pemesanan melalui mobile aplikasi yang terintegrasi, anda dapat mengkases layanan kami kapanpun dan dimanapun.",R.drawable.lakukan_pemesanan));
+        mList.add(new IntroModel("BLITS AMBULANS", "Layanan masyarakat kota Bandar Lampung, sebagai sarana pemesanan ambulans milik daerah secara digital.", R.drawable.icon_text_light));
+        mList.add(new IntroModel("KELOLA DATA AMBULANS", "Kami menyediakan layanan untuk mengelola armada ambulans dengan status yang dimiliki kendaraan untuk beroperasi.", R.drawable.kelola_ambulans));
+        mList.add(new IntroModel("KELOLA DATA PENGEMUDI", "Layanan kami memiliki fitur yang dapat digunakan untuk mendata pengemudi yang dimiliki daerah untuk beroperasi.", R.drawable.kelola_driver));
+        mList.add(new IntroModel("LAKUKAN PEMESANAN", "Lakukan pemesanan melalui mobile aplikasi yang terintegrasi, anda dapat mengkases layanan kami kapanpun dan dimanapun.", R.drawable.lakukan_pemesanan));
 
-        introAdapter = new IntroAdapter(this,mList);
+        introAdapter = new IntroAdapter(this, mList);
         screenPager.setAdapter(introAdapter);
 
         tabIndicator.setupWithViewPager(screenPager);
@@ -69,7 +69,7 @@ public class OnBoard extends AppCompatActivity {
                     position++;
                     screenPager.setCurrentItem(position);
                 }
-                if (position == mList.size()-1) {
+                if (position == mList.size() - 1) {
                     loaddLastScreen();
                 }
             }
@@ -78,7 +78,7 @@ public class OnBoard extends AppCompatActivity {
         tabIndicator.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == mList.size()-1) {
+                if (tab.getPosition() == mList.size() - 1) {
                     loaddLastScreen();
                 }
             }
@@ -117,16 +117,16 @@ public class OnBoard extends AppCompatActivity {
     }
 
     private void savePrefsData() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isIntroOpnend",true);
+        editor.putBoolean("isIntroOpnend", true);
         editor.commit();
     }
 
     private boolean restorePrefData() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
-        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend",false);
-        return  isIntroActivityOpnendBefore;
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
+        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend", false);
+        return isIntroActivityOpnendBefore;
     }
 
 }

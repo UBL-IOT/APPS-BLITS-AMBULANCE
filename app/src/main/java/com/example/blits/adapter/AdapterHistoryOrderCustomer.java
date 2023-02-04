@@ -80,10 +80,6 @@ public class AdapterHistoryOrderCustomer extends RecyclerView.Adapter<AdapterHis
             holder.mStatus.setText("Selesai");
             holder.mIndicator.setImageResource(R.drawable.shape_indicator_success);
         }
-
-
-
-//        holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));
     }
 
     @Override

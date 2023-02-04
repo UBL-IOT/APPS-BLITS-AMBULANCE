@@ -9,8 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestService {
     private static final String BASK_URL = App.getApplication().getString(R.string.end_point);
     private static Retrofit retrofit;
+
     public static Retrofit getRetrofitInstance() {
-        if (retrofit == null){
+        if (retrofit == null) {
             retrofit = new Retrofit
                     .Builder()
                     .baseUrl(BASK_URL)

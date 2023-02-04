@@ -1,4 +1,4 @@
-package com.example.blits;
+package com.example.blits.assets;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.example.blits.R;
 
 public class TermCondition extends AppCompatActivity {
 

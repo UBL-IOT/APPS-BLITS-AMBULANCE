@@ -36,7 +36,7 @@ public class AdapterHistoryOrderDriver extends RecyclerView.Adapter<AdapterHisto
     @NonNull
     @Override
     public AdapterHistoryOrderDriver.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(context).inflate(R.layout.item_pesanan_clear, null, false);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.item_pesanan_clear_driver, null, false);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rootView.setLayoutParams(lp);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
@@ -80,10 +80,6 @@ public class AdapterHistoryOrderDriver extends RecyclerView.Adapter<AdapterHisto
             holder.mStatus.setText("Selesai");
             holder.mIndicator.setImageResource(R.drawable.shape_indicator_success);
         }
-
-
-
-//        holder.mDriver.setOnClickListener(view -> listener.onDetailDriver(data));
     }
 
     @Override

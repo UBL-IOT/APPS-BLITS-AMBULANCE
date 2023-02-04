@@ -55,12 +55,12 @@ public class SignIn extends AppCompatActivity {
 
         modeluser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
-        if (Utils.isLoggedIn()){
+        if (Utils.isLoggedIn()) {
             int roleUser = Integer.parseInt(modeluser.getRole());
 
             if (roleUser == 3) {
                 startActivity(new Intent(SignIn.this, MainDriver.class));
-            } else if(roleUser == 2) {
+            } else if (roleUser == 2) {
                 startActivity(new Intent(SignIn.this, MainCustomer.class));
             }
         }
@@ -144,7 +144,7 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e("Error: ", error.getMessage());
-                Log.d("Erornya" , error.getMessage());
+                Log.d("Erornya", error.getMessage());
                 hideDialog();
             }
         });

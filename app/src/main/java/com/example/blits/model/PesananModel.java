@@ -128,7 +128,7 @@ public class PesananModel {
         return tujuan_lat;
     }
 
-    public void     setTujuan_lat(String tujuan_lat) {
+    public void setTujuan_lat(String tujuan_lat) {
         this.tujuan_lat = tujuan_lat;
     }
 

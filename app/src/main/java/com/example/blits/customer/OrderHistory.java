@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,12 +28,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class OrderHistory extends AppCompatActivity {
+
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
     SweetAlertDialog sweetAlertDialog;
     ModelUser modelUser;
     LinearLayout dataAvailable , emptyDataDisplay;
+
     public final Retrofit restService = RestService.getRetrofitInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class OrderHistory extends AppCompatActivity {
         dataAvailable = findViewById(R.id.dataAvailable);
         emptyDataDisplay = findViewById(R.id.emptyDataDisplay);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
+
         this.ListHistoryPesanan();
     }
 
@@ -70,17 +73,12 @@ public class OrderHistory extends AppCompatActivity {
     }
 
     void onDataReady(List<PesananModel> model) {
-//        List<PesananModel> models = new ArrayList<>();
-//        for(PesananModel data : model){
-//            if(data.getStatus_pesanan() != 3)
-//                models.add(data);
-//        }
         if(model.isEmpty()) {
             emptyDataDisplay.setVisibility(View.VISIBLE);
             dataAvailable.setVisibility(View.GONE);
         }else {
             mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             mRecyclerView.clearFocus();
             adapter = new AdapterHistoryOrderCustomer(this, model);
             mRecyclerView.setAdapter(adapter);

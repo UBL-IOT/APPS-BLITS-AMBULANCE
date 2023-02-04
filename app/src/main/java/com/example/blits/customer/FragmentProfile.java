@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,7 +27,7 @@ public class FragmentProfile extends Fragment {
 
     LinearLayout btnSignOut;
     Dialog dialogSignOut;
-    TextView  phoneData, createdData, fullnameData, emailData, addressData;
+    TextView phoneData, createdData, fullnameData, emailData, addressData;
     ImageView mBtnEdit;
 
     private RequestQueue requestQueue;
@@ -78,12 +77,12 @@ public class FragmentProfile extends Fragment {
             }
         });
 
-        mBtnEdit.setOnClickListener(view -> doEdit() );
+        mBtnEdit.setOnClickListener(view -> doEdit());
         return v;
     }
 
-    void doEdit(){
-        startActivity(new Intent(getActivity() , EditProfile.class));
+    void doEdit() {
+        startActivity(new Intent(getActivity(), EditProfile.class));
         getActivity().finish();
     }
 }

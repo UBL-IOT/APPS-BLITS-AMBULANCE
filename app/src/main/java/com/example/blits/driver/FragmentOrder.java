@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.blits.R;
+import com.example.blits.adapter.AdapterHistoryOrderCustomer;
+import com.example.blits.adapter.AdapterHistoryOrderDriver;
 import com.example.blits.adapter.AdapterOrderCustomer;
 import com.example.blits.adapter.AdapterOrderDriver;
 import com.example.blits.model.DriverModel;
@@ -41,54 +43,39 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class FragmentOrder extends Fragment {
+
     RecyclerView mRecyclerView;
     RecyclerView.Adapter adapter;
-
-    LinearLayout emptyDataDisplay, dataAvailable;
-
-    ModelUser modelUser;
-    Dialog dialog;
-    ImageButton closePopup;
-    TextView fullnameriverData, platDriverData, orderHstory;
     SweetAlertDialog sweetAlertDialog;
+    ModelUser modelUser;
+    LinearLayout dataAvailable , emptyDataDisplay;
     public final Retrofit restService = RestService.getRetrofitInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_order, container, false);
-        dialog = new Dialog(getActivity());
+        View v = inflater.inflate(R.layout.fragment_order_driver, container, false);
+
         sweetAlertDialog = new SweetAlertDialog(getActivity());
         mRecyclerView = v.findViewById(R.id.mRecyclerView);
-
-        emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
         dataAvailable = v.findViewById(R.id.dataAvailable);
-
-        orderHstory = v.findViewById(R.id.history);
-        orderHstory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), OrderHistory.class));
-            }
-        });
-
+        emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
+        this.ListHistoryPesanan();
 
-        ListPesanan(modelUser.getGuid());
         return v;
     }
 
-    private void ListPesanan(String userGuid) {
+    private void ListHistoryPesanan() {
         showLoadingIndicator();
-        restService.create(NetworkService.class).getPesananByDriver(userGuid)
+        restService.create(NetworkService.class).getHistoryPesananByDriver(modelUser.getGuid())
                 .enqueue(new Callback<PesananResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
-                        if (response.body().getmStatus()) {
-                            onDataReady(response.body().getData());
-                        } else {
-                            SweetDialogs.commonWarning(getActivity(), "Warning", "Gagal Memuat Permintaan", false);
-                        }
                         hideLoadingIndicator();
+                        if (response.body().getmStatus())
+                            onDataReady(response.body().getData());
+                        else
+                            SweetDialogs.commonWarning(getActivity(), "Warning", "Gagal Memuat Permintaan", false);
                     }
 
                     @Override
@@ -100,22 +87,19 @@ public class FragmentOrder extends Fragment {
     }
 
     void onDataReady(List<PesananModel> model) {
-        List<PesananModel> models = new ArrayList<>();
-        for(PesananModel data : model){
-            if(data.getStatus_pesanan() != 3)
-                models.add(data);
-        }
-        if(models.isEmpty()) {
+//        List<PesananModel> models = new ArrayList<>();
+//        for(PesananModel data : model){
+//            if(data.getStatus_pesanan() != 3)
+//                models.add(data);
+//        }
+        if(model.isEmpty()) {
             emptyDataDisplay.setVisibility(View.VISIBLE);
             dataAvailable.setVisibility(View.GONE);
-        }
-        else {
-            emptyDataDisplay.setVisibility(View.GONE);
-            dataAvailable.setVisibility(View.VISIBLE);
+        }else {
             mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             mRecyclerView.clearFocus();
-            adapter = new AdapterOrderDriver(getActivity(), models);
+            adapter = new AdapterHistoryOrderDriver(getActivity(), model);
             mRecyclerView.setAdapter(adapter);
         }
     }

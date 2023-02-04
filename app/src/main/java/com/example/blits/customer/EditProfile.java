@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.blits.R;
@@ -17,7 +16,6 @@ import com.example.blits.network.RestService;
 import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
-import com.example.blits.service.Utils;
 import com.example.blits.ui.SweetDialogs;
 import com.example.blits.util.CommonRespon;
 import com.google.android.material.textfield.TextInputEditText;
@@ -44,7 +42,7 @@ public class EditProfile extends AppCompatActivity {
     Button mSubmit;
 
     public final Retrofit restService = RestService.getRetrofitInstance();
-    ModelUser modelUser ;
+    ModelUser modelUser;
     SweetAlertDialog sweetAlertDialog;
 
     @Override
@@ -60,20 +58,20 @@ public class EditProfile extends AppCompatActivity {
         mSubmit.setOnClickListener(view -> this.editProfile());
     }
 
-    void editProfile(){
+    void editProfile() {
         ModelUser model = new ModelUser();
         model.setFullname(mNama.getText().toString());
         model.setAlamat(mAddress.getText().toString());
         model.setEmail(mEmail.getText().toString());
         showLoadingIndicator();
-        restService.create(NetworkService.class).updateProfile(modelUser.getGuid(),model)
+        restService.create(NetworkService.class).updateProfile(modelUser.getGuid(), model)
                 .enqueue(new Callback<CommonRespon>() {
                     @Override
                     public void onResponse(retrofit2.Call<CommonRespon> call, Response<CommonRespon> response) {
                         hideLoadingIndicator();
-                        if(response.body().getSuccess()){
+                        if (response.body().getSuccess()) {
                             SweetDialogs.commonSuccessWithIntent(EditProfile.this, "Berhasil Memuat Permintaan", string -> {
-                               gotoProfile();
+                                gotoProfile();
                             });
                         }
                     }
@@ -91,7 +89,7 @@ public class EditProfile extends AppCompatActivity {
         SweetDialogs.endpointError(this);
     }
 
-    public void gotoProfile(){
+    public void gotoProfile() {
         Intent i = new Intent(EditProfile.this, MainCustomer.class);
         i.putExtra("key", this.getClass().getSimpleName());
         startActivity(i);

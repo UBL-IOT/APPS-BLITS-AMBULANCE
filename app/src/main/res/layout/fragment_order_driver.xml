@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_white"
     android:orientation="vertical"
-    tools:context=".driver.FragmentOrder">
+    tools:context=".customer.FragmentOrder">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,20 +30,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Daftar Pesanan"
+            android:text="Daftar Pesanan Selesai"
             android:textColor="@color/main_white"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/history"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="0"
-            android:text="Riwayat"
-            android:textColor="@color/main_white"
-            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -88,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_pesanan" />
+                tools:listitem="@layout/item_pesanan_clear_driver" />
 
         </LinearLayout>
 
