@@ -23,6 +23,22 @@ public class ModelUser {
         this.foto_selfie = foto_selfie ;
     }
 
+    public String getFoto_ktp() {
+        return foto_ktp;
+    }
+
+    public void setFoto_ktp(String foto_ktp) {
+        this.foto_ktp = foto_ktp;
+    }
+
+    public String getFoto_selfie() {
+        return foto_selfie;
+    }
+
+    public void setFoto_selfie(String foto_selfie) {
+        this.foto_selfie = foto_selfie;
+    }
+
     public String getGuid() {
         return guid;
     }

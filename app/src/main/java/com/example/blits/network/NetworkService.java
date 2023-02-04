@@ -4,6 +4,7 @@ import com.example.blits.model.ModelUser;
 import com.example.blits.model.PesananModel;
 import com.example.blits.response.DriverResponse;
 import com.example.blits.response.PesananResponse;
+import com.example.blits.response.UserRespon;
 import com.example.blits.util.CommonRespon;
 
 import retrofit2.Call;
@@ -16,7 +17,7 @@ import retrofit2.http.Path;
 public interface NetworkService {
 
     @PUT("users/user-update/{guid}")
-    Call<CommonRespon> updateProfile(@Path("guid") String guid ,@Body ModelUser model);
+    Call<UserRespon> updateProfile(@Path("guid") String guid , @Body ModelUser model);
 
     @POST("pesanan/input")
     Call<CommonRespon> createPesanan(@Body PesananModel data);

@@ -13,12 +13,15 @@ import com.example.blits.R;
 import com.example.blits.model.ModelUser;
 import com.example.blits.network.NetworkService;
 import com.example.blits.network.RestService;
+import com.example.blits.response.UserRespon;
 import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
+import com.example.blits.service.Utils;
 import com.example.blits.ui.SweetDialogs;
 import com.example.blits.util.CommonRespon;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import butterknife.BindView;
@@ -54,6 +57,9 @@ public class EditProfile extends AppCompatActivity {
         sweetAlertDialog = new SweetAlertDialog(this);
         mNama.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         mAddress.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        mNama.setText(modelUser.getFullname());
+        mAddress.setText(modelUser.getAlamat());
+        mEmail.setText(modelUser.getEmail());
 
         mSubmit.setOnClickListener(view -> this.editProfile());
     }
@@ -65,19 +71,21 @@ public class EditProfile extends AppCompatActivity {
         model.setEmail(mEmail.getText().toString());
         showLoadingIndicator();
         restService.create(NetworkService.class).updateProfile(modelUser.getGuid(), model)
-                .enqueue(new Callback<CommonRespon>() {
+                .enqueue(new Callback<UserRespon>() {
                     @Override
-                    public void onResponse(retrofit2.Call<CommonRespon> call, Response<CommonRespon> response) {
+                    public void onResponse(retrofit2.Call<UserRespon> call, Response<UserRespon> response) {
                         hideLoadingIndicator();
                         if (response.body().getSuccess()) {
                             SweetDialogs.commonSuccessWithIntent(EditProfile.this, "Berhasil Memuat Permintaan", string -> {
+//                               Log.d("profile" , new Gson().toJson(response.body().getUser()));
+                                Utils.storeProfile(new Gson().toJson(response.body().getUser()));
                                 gotoProfile();
                             });
                         }
                     }
 
                     @Override
-                    public void onFailure(retrofit2.Call<CommonRespon> call, Throwable t) {
+                    public void onFailure(retrofit2.Call<UserRespon> call, Throwable t) {
                         hideLoadingIndicator();
                         onNetworkError(t.getLocalizedMessage());
                     }
@@ -90,6 +98,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     public void gotoProfile() {
+
         Intent i = new Intent(EditProfile.this, MainCustomer.class);
         i.putExtra("key", this.getClass().getSimpleName());
         startActivity(i);

@@ -22,6 +22,7 @@ import com.example.blits.service.App;
 import com.example.blits.service.GsonHelper;
 import com.example.blits.service.Prefs;
 import com.example.blits.service.Utils;
+import com.example.blits.ui.SweetDialogs;
 
 public class FragmentProfile extends Fragment {
 
@@ -74,6 +75,7 @@ public class FragmentProfile extends Fragment {
             public void onClick(View view) {
                 App.getPref().clear();
                 startActivity(new Intent(getActivity(), SignIn.class));
+//                SweetDialogs.commonLogout();
             }
         });
 

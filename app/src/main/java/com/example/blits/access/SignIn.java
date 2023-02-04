@@ -52,7 +52,7 @@ public class SignIn extends AppCompatActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-
+        setContentView(R.layout.activity_sign_in);
         modeluser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
         if (Utils.isLoggedIn()) {
@@ -65,7 +65,7 @@ public class SignIn extends AppCompatActivity {
             }
         }
 
-        setContentView(R.layout.activity_sign_in);
+
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -127,6 +127,7 @@ public class SignIn extends AppCompatActivity {
                                 String roleUser = dataUser.getString("role");
                                 App.getPref().put(Prefs.PREF_IS_LOGEDIN, true);
                                 Utils.storeProfile(dataUser.toString());
+                                Log.d("profilepresp" , dataUser.toString());
 
                                 if (roleUser.equals("3")) {
                                     startActivity(new Intent(SignIn.this, MainDriver.class));
