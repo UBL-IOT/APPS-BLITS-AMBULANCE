@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blits.R;
 import com.example.blits.adapter.AdapterHistoryOrderCustomer;
@@ -54,8 +55,6 @@ public class FragmentOrder extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_order_driver, container, false);
-
-        sweetAlertDialog = new SweetAlertDialog(getActivity());
         mRecyclerView = v.findViewById(R.id.mRecyclerView);
         dataAvailable = v.findViewById(R.id.dataAvailable);
         emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
@@ -84,6 +83,7 @@ public class FragmentOrder extends Fragment {
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
     void onDataReady(List<PesananModel> model) {
@@ -105,11 +105,12 @@ public class FragmentOrder extends Fragment {
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 2);
     }
 
     public void onNetworkError(String cause) {

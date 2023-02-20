@@ -61,6 +61,7 @@ public class FragmentDashboard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
+//        View v = View.inflate(getActivity(),R.layout.fragment_dashboard, null);
 
         ButterKnife.bind(getActivity());
 
@@ -74,7 +75,6 @@ public class FragmentDashboard extends Fragment {
         mBtnWa = v.findViewById(R.id.mBtnWa);
 
         requestQueue = Volley.newRequestQueue(getActivity());
-        sweetAlertDialog = new SweetAlertDialog(getActivity());
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
 
         fullnameData.setText(modelUser.getFullname());
@@ -93,7 +93,7 @@ public class FragmentDashboard extends Fragment {
                 .enqueue(new Callback<DriverResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<DriverResponse> call, Response<DriverResponse> response) {
-                        hideLoadingIndicator();
+
                         if (response.body().getmStatus()) {
                             onDataReady(response.body().getData());
                         } else {
@@ -103,10 +103,10 @@ public class FragmentDashboard extends Fragment {
 
                     @Override
                     public void onFailure(retrofit2.Call<DriverResponse> call, Throwable t) {
-                        hideLoadingIndicator();
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
     void onDataReady(List<DriverModel> model) {
@@ -138,7 +138,7 @@ public class FragmentDashboard extends Fragment {
                 .enqueue(new Callback<PesananResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
-                        hideLoadingIndicator();
+
                         if (response.body().getmStatus()) {
                             List<PesananModel> orders = response.body().getData();
                             mCardPesanan.setVisibility(View.GONE);
@@ -167,10 +167,10 @@ public class FragmentDashboard extends Fragment {
 
                     @Override
                     public void onFailure(retrofit2.Call<PesananResponse> call, Throwable t) {
-                        hideLoadingIndicator();
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
     void gotoWa(String noTelpon) {
@@ -191,11 +191,12 @@ public class FragmentDashboard extends Fragment {
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 2);
     }
 
     public void onNetworkError(String cause) {

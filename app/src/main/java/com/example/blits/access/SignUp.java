@@ -108,7 +108,9 @@ public class SignUp extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_sign_up);
-
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
         requestQueue = Volley.newRequestQueue(this);
 
         edtFullname = findViewById(R.id.fullname);
@@ -120,7 +122,20 @@ public class SignUp extends AppCompatActivity {
         termCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUp.this, TermCondition.class));
+//                startActivity(new Intent(SignUp.this, TermCondition.class));
+                String dataFullname = edtFullname.getText().toString();
+                String dataPassword = edtPassword.getText().toString();
+                String dataPhone = edtPhone.getText().toString();
+
+                if (dataFullname.isEmpty()) {
+                    StyleableToast.makeText(SignUp.this, "Nama lengkap tidak boleh kosong ...", R.style.toastStyleWarning).show();
+                } else if (dataPassword.isEmpty()) {
+                    StyleableToast.makeText(SignUp.this, "Password tidak boleh kosong ...", R.style.toastStyleWarning).show();
+                } else if (dataPhone.isEmpty()) {
+                    StyleableToast.makeText(SignUp.this, "No. Telepon tidak boleh kosong ...", R.style.toastStyleWarning).show();
+                } else {
+                    storeFtp();
+                }
             }
         });
 
@@ -223,7 +238,7 @@ public class SignUp extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (options[which].equals("Ambil Foto")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File file = new File(Environment.getExternalStorageDirectory(), "temp.jpg");
+                    File file = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                     startActivityForResult(intent, openCamera);
                 } else if (options[which].equals("Pilih dari Gallery")) {
@@ -248,7 +263,11 @@ public class SignUp extends AppCompatActivity {
 
             if (requestCode == openCameraKtp) {
                 fileKtp = new File(Environment.getExternalStorageDirectory().toString());
-
+                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/blits/default";    // it will return root directory of internal storage
+                File root = new File(path);
+                if (!root.exists()) {
+                    root.mkdirs();       // create folder if not exist
+                }
                 for (File temp : fileKtp.listFiles()) {
                     if (temp.getName().equals("temp.jpg")) {
                         fileKtp = temp;
@@ -259,7 +278,7 @@ public class SignUp extends AppCompatActivity {
                 try {
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                     bitmapKTP = BitmapFactory.decodeFile(fileKtp.getAbsolutePath(), bitmapOptions);
-                    bitmapKTP = getResizedBitmap(bitmapKTP, 400);
+                    bitmapKTP = getResizedBitmap(bitmapKTP, 1000);
                     ktpData.setImageBitmap(bitmapKTP);
                     takePhotoKTP.setVisibility(View.GONE);
                     takeKTPData.setVisibility(View.VISIBLE);
@@ -295,7 +314,7 @@ public class SignUp extends AppCompatActivity {
                 pathKtp = cursor.getString(columnIndex);
                 cursor.close();
                 bitmapKTP = (BitmapFactory.decodeFile(pathKtp));
-                bitmapKTP = getResizedBitmap(bitmapKTP, 400);
+                bitmapKTP = getResizedBitmap(bitmapKTP, 1000);
                 file_ktp = new File(pathKtp);
                 Log.w("path of", pathKtp + "");
                 ktpData.setImageBitmap(bitmapKTP);
@@ -314,7 +333,7 @@ public class SignUp extends AppCompatActivity {
                 try {
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                     bitmapSelfie = BitmapFactory.decodeFile(fileSelfie.getAbsolutePath(), bitmapOptions);
-                    bitmapSelfie = getResizedBitmap(bitmapSelfie, 400);
+                    bitmapSelfie = getResizedBitmap(bitmapSelfie, 1000);
                     selfieData.setImageBitmap(bitmapSelfie);
                     takePhotoSelfie.setVisibility(View.GONE);
                     takeSelfieData.setVisibility(View.VISIBLE);
@@ -350,7 +369,7 @@ public class SignUp extends AppCompatActivity {
                 pathSelfie = cursor.getString(columnIndex);
                 cursor.close();
                 bitmapSelfie = (BitmapFactory.decodeFile(pathSelfie));
-                bitmapSelfie = getResizedBitmap(bitmapSelfie, 400);
+//                bitmapSelfie = getResizedBitmap(bitmapSelfie, 400);
                 file_selfie = new File(pathSelfie);
                 Log.w("path of", pathSelfie + "");
                 selfieData.setImageBitmap(bitmapSelfie);
@@ -446,6 +465,7 @@ public class SignUp extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("errornya" , error.getMessage());
                 VolleyLog.e("Error: ", error.getMessage());
                 hideDialog();
             }

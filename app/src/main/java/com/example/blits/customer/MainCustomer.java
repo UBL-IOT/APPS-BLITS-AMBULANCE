@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.blits.R;
 import com.example.blits.model.ModelUser;
@@ -52,10 +53,8 @@ public class MainCustomer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_customer);
-
-        sweetAlertDialog = new SweetAlertDialog(this);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
-
+//        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
         Intent iin = getIntent();
         Bundle extras = iin.getExtras();
 
@@ -123,7 +122,7 @@ public class MainCustomer extends AppCompatActivity {
                 .enqueue(new Callback<PesananResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
-                        hideLoadingIndicator();
+
                         if (response.body().getmStatus())
                             onDataReady(response.body().getData());
                         else
@@ -136,6 +135,8 @@ public class MainCustomer extends AppCompatActivity {
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+
+        hideLoadingIndicator();
     }
 
     void onDataReady(List<PesananModel> model) {
@@ -170,10 +171,11 @@ public class MainCustomer extends AppCompatActivity {
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 2);
     }
 }

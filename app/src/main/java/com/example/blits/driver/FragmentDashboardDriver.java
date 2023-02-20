@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blits.R;
 import com.example.blits.model.ModelUser;
@@ -78,7 +79,6 @@ public class FragmentDashboardDriver extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_dashboard_driver, container, false);
         dialog = new Dialog(getActivity());
-        sweetAlertDialog = new SweetAlertDialog(getActivity());
 
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
         userGuid = modelUser.getGuid();
@@ -102,12 +102,13 @@ public class FragmentDashboardDriver extends Fragment {
         call = v.findViewById(R.id.call_whatsapp);
 
         fullnameData.setText(modelUser.getFullname());
-
+//        emptyDataDisplay.setVisibility(View.VISIBLE);
+//        dataAvailable.setVisibility(View.GONE);
         getOrders(userGuid);
 
-        requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
-        });
+//        requestPermissionsIfNecessary(new String[]{
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
+//        });
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -187,6 +188,7 @@ public class FragmentDashboardDriver extends Fragment {
                 .enqueue(new Callback<PesananResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
+
                         if (response.body().getmStatus()) {
                             if (response.body().getData().size() > 0) {
                                 if(response.body().getData().get(0).getStatus_pesanan() != 3)
@@ -208,6 +210,7 @@ public class FragmentDashboardDriver extends Fragment {
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
     private void pickOrders(String userGuid, int statusPesanan , int statusDriver , PesananModel data) {
@@ -228,21 +231,23 @@ public class FragmentDashboardDriver extends Fragment {
                         } else {
                             SweetDialogs.commonWarning(getActivity(), "Warning", "Gagal Memuat Permintaan", true);
                         }
-                        hideLoadingIndicator();
+
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<CommonRespon> call, Throwable t) {
                         Log.d("pesannya", t.getLocalizedMessage());
-                        hideLoadingIndicator();
+//                        hideLoadingIndicator();
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
 
     private void onDataReady(PesananModel order) {
         int StatusPesanan , StatusDriver;
+        String message ;
         mOrderCode.setText(order.getKode_pesanan());
         mCustomerName.setText(order.getData_user().getFullname());
         mCustomerPhone.setText(order.getData_user().getNo_telpon());
@@ -312,16 +317,19 @@ public class FragmentDashboardDriver extends Fragment {
         });
 
         if (order.getStatus_pesanan() == 1) {
-            mTxtSubmit.setText("PICK ORDER");
+            mTxtSubmit.setText("PICK UP");
             StatusPesanan = 2;
             StatusDriver = 1 ;
+            message = "Ambil Jemputan Anda";
         } else {
             mTxtSubmit.setText("SELESAI");
             StatusPesanan = 3;
             StatusDriver = 0;
+            message = "Akhiri Pesanan";
         }
 
-        mPickUpButton.setOnClickListener(view -> SweetDialogs.confirmDialog(getActivity(), "Apakah Anda Yakin ?", "Melakukan Pick Order", "Berhasil Melakukan Checkout!", string -> {
+
+        mPickUpButton.setOnClickListener(view -> SweetDialogs.confirmDialog(getActivity(), message, "", "Berhasil Melakukan Checkout!", string -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         pickOrders(order.getGuid(), StatusPesanan , StatusDriver , order);
                     }
@@ -330,11 +338,12 @@ public class FragmentDashboardDriver extends Fragment {
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 2);
     }
 
     public void onNetworkError(String cause) {

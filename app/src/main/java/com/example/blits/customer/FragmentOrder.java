@@ -58,7 +58,6 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
         View v = inflater.inflate(R.layout.fragment_order, container, false);
 
         dialog = new Dialog(getActivity());
-        sweetAlertDialog = new SweetAlertDialog(getActivity());
         mRecyclerView = v.findViewById(R.id.mRecyclerView);
 
         emptyDataDisplay = v.findViewById(R.id.emptyDataDisplay);
@@ -85,7 +84,7 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
                 .enqueue(new Callback<PesananResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<PesananResponse> call, Response<PesananResponse> response) {
-                        hideLoadingIndicator();
+
                         if (response.body().getmStatus())
                             onDataReady(response.body().getData());
                         else
@@ -94,10 +93,10 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
 
                     @Override
                     public void onFailure(retrofit2.Call<PesananResponse> call, Throwable t) {
-                        hideLoadingIndicator();
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
     private void getDriver(String guid_driver) {
@@ -106,16 +105,17 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
                 .enqueue(new Callback<DriverResponse>() {
                     @Override
                     public void onResponse(retrofit2.Call<DriverResponse> call, Response<DriverResponse> response) {
-                        hideLoadingIndicator();
                         showDetailDriver(response.body().getData().get(0));
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<DriverResponse> call, Throwable t) {
-                        hideLoadingIndicator();
+
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+
+        hideLoadingIndicator();
     }
 
     private void showDetailDriver(DriverModel data) {
@@ -161,11 +161,12 @@ public class FragmentOrder extends Fragment implements AdapterOrderCustomer.onSe
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(getActivity(),sweetAlertDialog,"Memuat...", 2);
     }
 
     public void onNetworkError(String cause) {

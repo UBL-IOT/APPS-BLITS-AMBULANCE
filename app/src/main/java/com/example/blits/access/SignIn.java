@@ -1,7 +1,9 @@
 package com.example.blits.access;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.blits.customer.MainCustomer;
 import com.example.blits.driver.MainDriver;
 import com.example.blits.R;
@@ -54,14 +58,14 @@ public class SignIn extends AppCompatActivity {
         }
         setContentView(R.layout.activity_sign_in);
         modeluser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
-
-        if (Utils.isLoggedIn()) {
-            int roleUser = Integer.parseInt(modeluser.getRole());
-
-            if (roleUser == 3) {
-                startActivity(new Intent(SignIn.this, MainDriver.class));
-            } else if (roleUser == 2) {
-                startActivity(new Intent(SignIn.this, MainCustomer.class));
+        if(App.getPref().getBoolean(Prefs.PREF_FIRST_TIME,false)){
+            if (Utils.isLoggedIn()) {
+                int roleUser = Integer.parseInt(modeluser.getRole());
+                if (roleUser == 3) {
+                    startActivity(new Intent(SignIn.this, MainDriver.class));
+                } else if (roleUser == 2) {
+                    startActivity(new Intent(SignIn.this, MainCustomer.class));
+                }
             }
         }
 
@@ -125,9 +129,10 @@ public class SignIn extends AppCompatActivity {
                                 JSONObject dataUser = data.getJSONObject("user");
 
                                 String roleUser = dataUser.getString("role");
+                                App.getPref().put(Prefs.PREF_FIRST_TIME, true);
                                 App.getPref().put(Prefs.PREF_IS_LOGEDIN, true);
                                 Utils.storeProfile(dataUser.toString());
-                                Log.d("profilepresp" , dataUser.toString());
+                                Log.d("profilepresp", dataUser.toString());
 
                                 if (roleUser.equals("3")) {
                                     startActivity(new Intent(SignIn.this, MainDriver.class));
@@ -173,5 +178,41 @@ public class SignIn extends AppCompatActivity {
             progressDialog.setContentView(R.layout.loading);
             progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
+    }
+
+//    public void showPermissionGranted(String permission) {
+//        TextView feedbackView = getFeedbackViewForPermission(permission);
+//        feedbackView.setText(R.string.permission_granted_feedback);
+//        feedbackView.setTextColor(ContextCompat.getColor(this, R.color.permission_granted));
+//    }
+//
+//    public void showPermissionDenied(String permission, boolean isPermanentlyDenied) {
+//        TextView feedbackView = getFeedbackViewForPermission(permission);
+//        feedbackView.setText(isPermanentlyDenied ? R.string.permission_permanently_denied_feedback
+//                : R.string.permission_denied_feedback);
+//        feedbackView.setTextColor(ContextCompat.getColor(this, R.color.permission_denied));
+//    }
+
+    //    private TextView getFeedbackViewForPermission(String name) {
+//        TextView feedbackView;
+//
+//        switch (name) {
+//            case Manifest.permission.CAMERA:
+//                feedbackView = cameraPermissionFeedbackView;
+//                break;
+//            case Manifest.permission.READ_CONTACTS:
+//                feedbackView = contactsPermissionFeedbackView;
+//                break;
+//            case Manifest.permission.RECORD_AUDIO:
+//                feedbackView = audioPermissionFeedbackView;
+//                break;
+//            default:
+//                throw new RuntimeException("No feedback view for this permission");
+//        }
+//
+//        return feedbackView;
+//    }
+    public static boolean isLoggedIn() {
+        return App.getPref().getBoolean(Prefs.PREF_IS_LOGEDIN, false);
     }
 }

@@ -11,7 +11,7 @@ android {
         targetSdk 29
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -27,6 +27,13 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src/main/res', 'src/main/res/drawable-v21', 'src/main/res/drawable-v22'
+            }
+        }
     }
 }
 
@@ -48,6 +55,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.5.3'
     annotationProcessor "com.jakewharton:butterknife-compiler:10.0.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.karumi:dexter:6.2.3'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 

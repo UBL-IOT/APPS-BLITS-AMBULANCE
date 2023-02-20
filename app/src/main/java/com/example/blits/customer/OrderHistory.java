@@ -42,7 +42,6 @@ public class OrderHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
 
-        sweetAlertDialog = new SweetAlertDialog(this);
         mRecyclerView = findViewById(R.id.mRecyclerView);
         dataAvailable = findViewById(R.id.dataAvailable);
         emptyDataDisplay = findViewById(R.id.emptyDataDisplay);
@@ -70,6 +69,7 @@ public class OrderHistory extends AppCompatActivity {
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
     void onDataReady(List<PesananModel> model) {
@@ -86,11 +86,12 @@ public class OrderHistory extends AppCompatActivity {
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 2);
     }
 
     public void onNetworkError(String cause) {

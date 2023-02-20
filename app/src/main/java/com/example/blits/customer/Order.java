@@ -102,7 +102,6 @@ public class Order extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
         ButterKnife.bind(this);
-        sweetAlertDialog = new SweetAlertDialog(this);
         btnMyLocation = findViewById(R.id.myLocation);
         btnBack = findViewById(R.id.arrowBack);
 
@@ -258,6 +257,7 @@ public class Order extends AppCompatActivity {
                             onNetworkError(t.getLocalizedMessage());
                         }
                     });
+            hideLoadingIndicator();
         }
     }
 
@@ -389,11 +389,12 @@ public class Order extends AppCompatActivity {
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 2);
     }
 
     private final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {

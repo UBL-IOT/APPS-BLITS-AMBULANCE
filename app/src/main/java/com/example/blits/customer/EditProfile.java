@@ -54,7 +54,6 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         modelUser = (ModelUser) GsonHelper.parseGson(App.getPref().getString(Prefs.PREF_STORE_PROFILE, ""), new ModelUser());
         ButterKnife.bind(this);
-        sweetAlertDialog = new SweetAlertDialog(this);
         mNama.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         mAddress.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         mNama.setText(modelUser.getFullname());
@@ -86,10 +85,11 @@ public class EditProfile extends AppCompatActivity {
 
                     @Override
                     public void onFailure(retrofit2.Call<UserRespon> call, Throwable t) {
-                        hideLoadingIndicator();
+
                         onNetworkError(t.getLocalizedMessage());
                     }
                 });
+        hideLoadingIndicator();
     }
 
     public void onNetworkError(String cause) {
@@ -116,10 +116,11 @@ public class EditProfile extends AppCompatActivity {
     }
 
     public void showLoadingIndicator() {
-        sweetAlertDialog.show();
+        sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        SweetDialogs.Loading(this, sweetAlertDialog, "Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        sweetAlertDialog.dismiss();
+        SweetDialogs.Loading(this, sweetAlertDialog, "Memuat...", 2);
     }
 }

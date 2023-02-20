@@ -24,6 +24,8 @@ public class SweetDialogs {
         void onClosed(String string);
     }
 
+
+
     public static void commonWarning(Activity context, String title, String content, boolean close) {
         SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE);
         dialog.setCancelable(true);
@@ -220,19 +222,16 @@ public class SweetDialogs {
         btnC.setTextSize((float) 16.5);
     }
 
-    public static void Loading(Activity context, String body) {
-        SweetAlertDialog pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+    public static void Loading(Activity context,SweetAlertDialog pDialog, String body , int code) {
+//        SweetAlertDialog pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
+        pDialog.setTitleText(body);
         pDialog.setCancelable(false);
         pDialog.show();
-    }
-    public static void Loading(Activity context) {
-        SweetAlertDialog pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
-        pDialog.setCancelable(false);
-        pDialog.dismiss();
+        if(code == 1)
+            pDialog.show();
+        else
+            pDialog.dismiss();
     }
 
     public static void confirmDialog(Activity context, String Title , String body, String suksesBody, onDialogClosed listener) {
