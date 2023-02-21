@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/main_blue"
+            android:gravity="center"
             android:orientation="horizontal"
             android:padding="15dp">
 
@@ -60,10 +61,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/fullname"
+                            android:textSize="11sp"
                             android:textAllCaps="true"
-                            android:textColor="@color/main_white"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/main_white" />
 
                     </LinearLayout>
 
@@ -94,7 +94,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/plat"
                             android:textColor="@color/main_white"
-                            android:textSize="13sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 

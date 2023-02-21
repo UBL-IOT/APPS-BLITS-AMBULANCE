@@ -278,7 +278,7 @@ public class SignUp extends AppCompatActivity {
                 try {
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                     bitmapKTP = BitmapFactory.decodeFile(fileKtp.getAbsolutePath(), bitmapOptions);
-                    bitmapKTP = getResizedBitmap(bitmapKTP, 1000);
+//                    bitmapKTP = getResizedBitmap(bitmapKTP, 1000);
                     ktpData.setImageBitmap(bitmapKTP);
                     takePhotoKTP.setVisibility(View.GONE);
                     takeKTPData.setVisibility(View.VISIBLE);
@@ -314,7 +314,7 @@ public class SignUp extends AppCompatActivity {
                 pathKtp = cursor.getString(columnIndex);
                 cursor.close();
                 bitmapKTP = (BitmapFactory.decodeFile(pathKtp));
-                bitmapKTP = getResizedBitmap(bitmapKTP, 1000);
+//                bitmapKTP = getResizedBitmap(bitmapKTP, 1000);
                 file_ktp = new File(pathKtp);
                 Log.w("path of", pathKtp + "");
                 ktpData.setImageBitmap(bitmapKTP);
@@ -333,7 +333,7 @@ public class SignUp extends AppCompatActivity {
                 try {
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                     bitmapSelfie = BitmapFactory.decodeFile(fileSelfie.getAbsolutePath(), bitmapOptions);
-                    bitmapSelfie = getResizedBitmap(bitmapSelfie, 1000);
+//                    bitmapSelfie = getResizedBitmap(bitmapSelfie, 1000);
                     selfieData.setImageBitmap(bitmapSelfie);
                     takePhotoSelfie.setVisibility(View.GONE);
                     takeSelfieData.setVisibility(View.VISIBLE);

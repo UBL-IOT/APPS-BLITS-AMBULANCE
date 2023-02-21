@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 public class Splash extends AppCompatActivity {
     @BindView(android.R.id.content)
     View contentView;
-    private int time_milis = 4000;
+    private int time_milis = 2000;
     boolean permission = false;
     MultiplePermissionsListener dialogMultiplePermissionsListener;
 
@@ -56,7 +56,6 @@ public class Splash extends AppCompatActivity {
             }
         }, time_milis);
     }
-
 
     private void requestPermissions() {
         // below line is use to request permission in the current activity.

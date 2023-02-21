@@ -36,6 +36,13 @@ public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboar
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final DriverModel driver = driverList.get(position);
         holder.fullnameDriver.setText(driver.getNama_driver());
+        holder.fullname = driver.getNama_driver();
+        if (holder.fullname.length() > 15) {
+            holder.fullname = holder.fullname.substring(0, 10) + "...";
+            holder.fullnameDriver.setText(holder.fullname);
+        } else {
+            holder.fullnameDriver.setText(driver.getNama_driver());
+        }
         holder.mPlat.setText(driver.getNo_plat());
         holder.mNotelpon.setText(driver.getUser().getNo_telpon());
     }
@@ -49,7 +56,7 @@ public class AdapterDashboardDriver extends RecyclerView.Adapter<AdapterDashboar
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
+        String fullname;
         TextView fullnameDriver, mPlat , mNotelpon;
 
         public ViewHolder(View itemView) {

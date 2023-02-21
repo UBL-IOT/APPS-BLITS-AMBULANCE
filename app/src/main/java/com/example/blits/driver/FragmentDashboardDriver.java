@@ -231,7 +231,6 @@ public class FragmentDashboardDriver extends Fragment {
                         } else {
                             SweetDialogs.commonWarning(getActivity(), "Warning", "Gagal Memuat Permintaan", true);
                         }
-
                     }
 
                     @Override
@@ -327,7 +326,6 @@ public class FragmentDashboardDriver extends Fragment {
             StatusDriver = 0;
             message = "Akhiri Pesanan";
         }
-
 
         mPickUpButton.setOnClickListener(view -> SweetDialogs.confirmDialog(getActivity(), message, "", "Berhasil Melakukan Checkout!", string -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

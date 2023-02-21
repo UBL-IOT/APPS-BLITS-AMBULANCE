@@ -107,7 +107,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:startIconDrawable="@drawable/ic_baseline_alternate_email_24"
+            app:startIconDrawable="@drawable/ic_baseline_phone_24"
             app:startIconTint="@color/main_blue">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -200,7 +200,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2"
+            app:layout_constraintTop_toBottomOf="@+id/do_regist"
             app:layout_constraintVertical_bias="0.936" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
