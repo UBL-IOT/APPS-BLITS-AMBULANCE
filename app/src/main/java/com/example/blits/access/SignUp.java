@@ -82,7 +82,7 @@ public class SignUp extends AppCompatActivity {
     private RequestQueue requestQueue;
     String pathSelfie, pathKtp;
     ProgressDialog progressDialog;
-
+    String fotoKtp , fotoSelfie;
     final int requestCodeKtp = 10;
     final int requestCodeSelfie = 20;
     final int openCameraKtp = 101;
@@ -95,7 +95,7 @@ public class SignUp extends AppCompatActivity {
 
     Bitmap bitmapKTP, bitmapSelfie;
     private String imageFile;
-
+    boolean uploadKtp , uploadSelfie ;
     String picturePath;
 
     @Override
@@ -110,6 +110,8 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         builder.detectFileUriExposure();
         requestQueue = Volley.newRequestQueue(this);
 
@@ -117,25 +119,21 @@ public class SignUp extends AppCompatActivity {
         edtFullname.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         edtPassword = findViewById(R.id.password);
         edtPhone = findViewById(R.id.phone);
+        takePhotoKTP = findViewById(R.id.takeKTP);
+        takePhotoSelfie = findViewById(R.id.takeSelfie);
+        takeKTPData = findViewById(R.id.takeKTPData);
+        takeSelfieData = findViewById(R.id.takeSelfieData);
+        ktpData = findViewById(R.id.dataKTP);
+        selfieData = findViewById(R.id.dataSelfie);
+        uploadKtp = false ;
+        uploadSelfie = false ;
 
         termCondition = findViewById(R.id.term_condition);
         termCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(SignUp.this, TermCondition.class));
-                String dataFullname = edtFullname.getText().toString();
-                String dataPassword = edtPassword.getText().toString();
-                String dataPhone = edtPhone.getText().toString();
+                startActivity(new Intent(SignUp.this, TermCondition.class));
 
-                if (dataFullname.isEmpty()) {
-                    StyleableToast.makeText(SignUp.this, "Nama lengkap tidak boleh kosong ...", R.style.toastStyleWarning).show();
-                } else if (dataPassword.isEmpty()) {
-                    StyleableToast.makeText(SignUp.this, "Password tidak boleh kosong ...", R.style.toastStyleWarning).show();
-                } else if (dataPhone.isEmpty()) {
-                    StyleableToast.makeText(SignUp.this, "No. Telepon tidak boleh kosong ...", R.style.toastStyleWarning).show();
-                } else {
-                    storeFtp();
-                }
             }
         });
 
@@ -166,7 +164,15 @@ public class SignUp extends AppCompatActivity {
                     StyleableToast.makeText(SignUp.this, "Password tidak boleh kosong ...", R.style.toastStyleWarning).show();
                 } else if (dataPhone.isEmpty()) {
                     StyleableToast.makeText(SignUp.this, "No. Telepon tidak boleh kosong ...", R.style.toastStyleWarning).show();
-                } else {
+
+                } else if (!uploadKtp) {
+                    StyleableToast.makeText(SignUp.this, "Mohon untuk memasukkan foto Ktp ...", R.style.toastStyleWarning).show();
+
+                }else if (!uploadSelfie) {
+                    StyleableToast.makeText(SignUp.this, "Mohon untuk memasukkan foto Selfie dengan Ktp ...", R.style.toastStyleWarning).show();
+
+                }
+                else {
                     storeFtp();
                 }
             }
@@ -187,12 +193,7 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-        takePhotoKTP = findViewById(R.id.takeKTP);
-        takePhotoSelfie = findViewById(R.id.takeSelfie);
-        takeKTPData = findViewById(R.id.takeKTPData);
-        takeSelfieData = findViewById(R.id.takeSelfieData);
-        ktpData = findViewById(R.id.dataKTP);
-        selfieData = findViewById(R.id.dataSelfie);
+
 
         takePhotoKTP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,18 +257,18 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/blits/default";    // it will return root directory of internal storage
+        File root = new File(path);
+        if (!root.exists()) {
+            root.mkdirs();       // create folder if not exist
+        }
         if (resultCode != RESULT_CANCELED) {
             File fileKtp = null;
             File fileSelfie = null;
 
             if (requestCode == openCameraKtp) {
                 fileKtp = new File(Environment.getExternalStorageDirectory().toString());
-                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/blits/default";    // it will return root directory of internal storage
-                File root = new File(path);
-                if (!root.exists()) {
-                    root.mkdirs();       // create folder if not exist
-                }
+
                 for (File temp : fileKtp.listFiles()) {
                     if (temp.getName().equals("temp.jpg")) {
                         fileKtp = temp;
@@ -287,10 +288,10 @@ public class SignUp extends AppCompatActivity {
 //                    file.delete();
                     OutputStream outFile = null;
                     file_ktp = new File(pathKtp, "cameraktp.jpg");
-
                     try {
                         outFile = new FileOutputStream(file_ktp);
                         bitmapKTP.compress(Bitmap.CompressFormat.JPEG, 20, outFile);
+                        uploadKtp = true ;
 //                        outFile.flush();
 //                        outFile.close();
                     } catch (FileNotFoundException e) {
@@ -321,6 +322,7 @@ public class SignUp extends AppCompatActivity {
                 takePhotoKTP.setVisibility(View.GONE);
                 takeKTPData.setVisibility(View.VISIBLE);
                 BitMapToString(bitmapKTP);
+                uploadKtp = true ;
             } else if (requestCode == openCameraSelfie) {
                 fileSelfie = new File(Environment.getExternalStorageDirectory().toString());
                 for (File temp : fileSelfie.listFiles()) {
@@ -346,6 +348,7 @@ public class SignUp extends AppCompatActivity {
                     try {
                         outFile = new FileOutputStream(file_selfie);
                         bitmapSelfie.compress(Bitmap.CompressFormat.JPEG, 20, outFile);
+                        uploadSelfie = true ;
 //                        outFile.flush();
 //                        outFile.close();
                     } catch (FileNotFoundException e) {
@@ -376,6 +379,7 @@ public class SignUp extends AppCompatActivity {
                 takePhotoSelfie.setVisibility(View.GONE);
                 takeSelfieData.setVisibility(View.VISIBLE);
                 BitMapToString(bitmapSelfie);
+                uploadSelfie = true ;
             }
         }
     }
@@ -465,7 +469,7 @@ public class SignUp extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("errornya" , error.getMessage());
+                Log.d("errornya" , error+"");
                 VolleyLog.e("Error: ", error.getMessage());
                 hideDialog();
             }
@@ -499,11 +503,6 @@ public class SignUp extends AppCompatActivity {
     public void storeFtp() {
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
 
-        if (SDK_INT > 8) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
         FTPClient ftpClient = new FTPClient();
 
@@ -528,24 +527,23 @@ public class SignUp extends AppCompatActivity {
 
             isLoggin = ftpClient.changeWorkingDirectory("/uploads");
             showServerReply(ftpClient);
-
+            BufferedInputStream buffIn = null;
             if (isLoggin) {
                 System.out.println("Successfully changed working directory.");
+
+                buffIn = new BufferedInputStream(new FileInputStream(file_ktp));
+                 fotoKtp = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date()) + "_ktp" + file_ktp.getName();
+                ftpClient.storeFile(fotoKtp, buffIn);
+
+                buffIn = new BufferedInputStream(new FileInputStream(file_selfie));
+                 fotoSelfie = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date()) + "_selfie" + file_selfie.getName();
+                ftpClient.storeFile(fotoSelfie, buffIn);
+                registFunction(edtFullname.getText().toString(), edtPassword.getText().toString(), edtPhone.getText().toString(), fotoKtp, fotoSelfie);
             } else {
                 System.out.println("Failed to change working directory. See server's reply.");
             }
 
-            BufferedInputStream buffIn = null;
-            buffIn = new BufferedInputStream(new FileInputStream(file_ktp));
-            String fotoKtp = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date()) + "_ktp" + file_ktp.getName();
-            ftpClient.storeFile(fotoKtp, buffIn);
-
-            buffIn = new BufferedInputStream(new FileInputStream(file_selfie));
-            String fotoSelfie = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date()) + "_selfie" + file_selfie.getName();
-            ftpClient.storeFile(fotoSelfie, buffIn);
-
             buffIn.close();
-            registFunction(edtFullname.getText().toString(), edtPassword.getText().toString(), edtPhone.getText().toString(), fotoKtp, fotoSelfie);
             ftpClient.logout();
             ftpClient.disconnect();
 

@@ -123,7 +123,8 @@ public class Order extends AppCompatActivity {
 
         edtJemput = findViewById(R.id.jemput);
         edtAntar = findViewById(R.id.antar);
-
+        edtAntar.setEnabled(false);
+        edtJemput.setEnabled(false);
         Context ctx = this.getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
@@ -390,11 +391,11 @@ public class Order extends AppCompatActivity {
 
     public void showLoadingIndicator() {
         sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 1);
+        SweetDialogs.Loading(this, sweetAlertDialog, "Memuat...", 1);
     }
 
     public void hideLoadingIndicator() {
-        SweetDialogs.Loading(this,sweetAlertDialog,"Memuat...", 2);
+        SweetDialogs.Loading(this, sweetAlertDialog, "Memuat...", 2);
     }
 
     private final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {

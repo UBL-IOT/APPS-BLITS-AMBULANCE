@@ -93,7 +93,10 @@
                 android:layout_marginTop="10dp"
                 android:textColorHint="@color/main_blue"
                 app:boxBackgroundMode="outline"
+                android:hint="@string/no_telpon"
                 app:hintEnabled="false"
+                app:helperText="Titikkan lokasi anda pada halaman map"
+                app:helperTextTextColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@+id/desc"
                 app:startIconDrawable="@drawable/ic_baseline_person_pin_24"
                 app:startIconTint="@color/main_blue">
@@ -103,7 +106,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/textinput"
-                    android:hint="Titik Antar"
                     android:inputType="text"
                     android:textColorHint="@color/main_blue"
                     android:textSize="15sp" />

@@ -17,10 +17,15 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+
     <application
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+
         android:name=".service.App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher_blits"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -28,17 +33,9 @@
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
         android:theme="@style/Theme.BLITS"
-        android:usesCleartextTraffic="true"
+
         tools:targetApi="31">
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <activity
             android:name=".customer.EditProfile"
             android:exported="false" />

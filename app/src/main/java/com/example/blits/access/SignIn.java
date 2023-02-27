@@ -138,6 +138,8 @@ public class SignIn extends AppCompatActivity {
                                     startActivity(new Intent(SignIn.this, MainDriver.class));
                                 } else if (roleUser.equals("2")) {
                                     startActivity(new Intent(SignIn.this, MainCustomer.class));
+                                }else{
+                                    StyleableToast.makeText(SignIn.this, msg, R.style.toastStyleWarning).show();
                                 }
                             } else {
                                 StyleableToast.makeText(SignIn.this, msg, R.style.toastStyleWarning).show();
